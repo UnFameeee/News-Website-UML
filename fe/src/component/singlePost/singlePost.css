@@ -1,0 +1,105 @@
+.singlePost{
+    flex: 9;
+}
+
+.singlePostWrapper{
+    padding: 20px;
+    padding-right: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.singlePostImg{
+    width: 100%;
+    height: 300px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.singlePostTitle{
+    text-align: center;
+    margin: 10px;
+    font-family: 'Lora', serif;
+    font-size: 28px;
+}
+
+/* Update Form */
+.singlePostTitleInput{
+    text-align: center;
+    margin: 10px;
+    color: gray;
+    font-family: 'Lora', serif;
+    font-size: 28px;
+}
+
+.singlePostTitleInput:focus{
+    outline: none;
+    border: none;
+    border-bottom: 1px solid lightgray;
+}
+/* End */
+
+.singlePostEdit{
+    float: right;
+    font-size: 16px;
+}
+
+.singlePostIcon{
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.singlePostIcon:first-child{
+    color: teal;
+}
+
+.singlePostIcon:last-child{
+    color: tomato;
+}
+
+.singlePostInfo{
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    color: #b39656;
+    font-size: 16px;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.singlePostDesc{
+    color: #666;
+    font-size: 18px;
+    line-height: 25px;
+}
+
+/* Update Form */
+.singlePostDescInput{
+    border: none;
+    color: #666;
+    font-size: 18px;
+    line-height: 25px;
+}
+
+.singlePostDescInput:focus{
+    outline: none;
+}
+/* End */
+
+.singlePostDesc::first-letter{
+    margin-left: 20px;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+/* Update Form */
+.singlePostButton{
+    width: 7%;
+    border: none;
+    background-color: teal;
+    padding: 5px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-end;
+}   
+/* ENd */
