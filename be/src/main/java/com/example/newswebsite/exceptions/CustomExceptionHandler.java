@@ -21,4 +21,28 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse error = new ErrorResponse("Server Error", details);
         return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(DuplicatedEmailException.class)
+    public final ResponseEntity<Object> handleDuplicatedEmailException(DuplicatedEmailException ex, WebRequest req){
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse("Email Duplicated", details);
+        return new ResponseEntity(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(DuplicatedEmailException.class)
+    public final ResponseEntity<Object> handleDuplicatedUsernameException(DuplicatedUsernameException ex, WebRequest req){
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse("Username Duplicated", details);
+        return new ResponseEntity(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(DuplicatedEmailException.class)
+    public final ResponseEntity<Object> handleDuplicatedPhoneException(DuplicatedPhoneException ex, WebRequest req){
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse("Phone Duplicated", details);
+        return new ResponseEntity(error, HttpStatus.CONFLICT);
+    }
 }

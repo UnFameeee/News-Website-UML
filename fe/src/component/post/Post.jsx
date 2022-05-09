@@ -1,5 +1,5 @@
 import "./post.css"
-import Single from "../../pages/single/Single";
+// import Single from "../../pages/single/Single";
 import {Link} from "react-router-dom"
 
 export default function Post({post}){

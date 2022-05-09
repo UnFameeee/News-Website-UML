@@ -12,12 +12,25 @@ export default function Register(){
     const handleSubmit = async (e) =>{
         e.preventDefault();
         setError(false);
+        
         try{
-            const res = await axiosInstance.post("/auth/register", {
-                username,
-                email, 
-                password
-            })
+            const data = {
+                "account": {
+                    "username": username,
+                    "password": password
+                },
+                "email": email, 
+                "phone": "",
+                "fullname": "", 
+                "image": "", 
+                "role": ""
+            };
+
+            console.log(data);
+
+            const res = await axiosInstance.post("/register", data)
+            
+            console.log(res);
             res.data && window.location.replace("/login")
         }catch(err){
             setError(true);
