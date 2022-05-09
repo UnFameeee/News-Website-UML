@@ -16,10 +16,13 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query("{'email': ?0}")
     Optional<User> findUserByEmail(String email);
 
-    @Query("{address:'?0'}")
-    List<User> findCustomByAddress(String address);
+    @Query("{phone:'?0'}")
+    Optional<User> findUserByPhone(String phone);
 
-    @Query("{address : { $regex: ?0 } }")
-    List<User> findCustomByRegExAddress(String domain);
+    @Query("{account: {username: '?0'}}")
+    Optional<User> findUserByUsername(String username);
+
+//    @Query("{address : { $regex: ?0 } }")
+//    List<User> findCustomByRegExAddress(String domain);
 }
 
