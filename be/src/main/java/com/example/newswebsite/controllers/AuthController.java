@@ -2,11 +2,8 @@ package com.example.newswebsite.controllers;
 
 import com.example.newswebsite.dtos.UserDto;
 import com.example.newswebsite.entities.User;
-import com.example.newswebsite.exceptions.DuplicatedEmailException;
-import com.example.newswebsite.exceptions.DuplicatedPhoneException;
-import com.example.newswebsite.exceptions.DuplicatedUsernameException;
+import com.example.newswebsite.exceptions.*;
 import com.example.newswebsite.services.auth.AuthService;
-import com.example.newswebsite.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,21 +23,24 @@ public class AuthController {
     private AuthService authService;
 
     /***
-     * @author: quocthang
-     * @return: Thông tin nhân viền vừa được thêm dưới role là NHAN_VIEN
+     * @author: unfame
+     * @return: Account's information has just been registered
      * @throws DuplicatedEmailException : Return Exception if Email was duplicated
      * @throws DuplicatedUsernameException : Return Exception if Username was duplicated
-     * @throws DuplicatedPhoneException : Return Exception if Phone was duplicated
      */
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody UserDto userDto) throws DuplicatedUsernameException, DuplicatedEmailException, DuplicatedPhoneException{
+    public ResponseEntity<User> register(@Valid @RequestBody UserDto userDto) throws DuplicatedUsernameException, DuplicatedEmailException{
         return new ResponseEntity<>(authService.register(userDto), HttpStatus.OK);
     }
 
-
-
+    /***
+     * @author: unfame
+     * @return: Account's information has just been logged in
+     * @throws UserNotExistException : Return Exception if Email was duplicated
+     * @throws PasswordIncorrectException : Return Exception if Username was duplicated
+     */
     @PostMapping("/login")
-    public ResponseEntity<User> login(@Valid @RequestBody UserDto userDto){
+    public ResponseEntity<User> login(@Valid @RequestBody UserDto userDto) throws UserNotExistException, PasswordIncorrectException {
         return new ResponseEntity<>(authService.login(userDto), HttpStatus.OK);
     }
 }

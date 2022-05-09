@@ -15,16 +15,16 @@ export default function Login(){
         try{
             const data = {
                 email: emailRef.current.value,
-                password: passwordRef.current.value
+                account: {
+                    password: passwordRef.current.value
+                }
             }
-            const res = await axiosInstance.post("/login", data);
+            const res = await axiosInstance.post("/auth/login", data);
             dispatch({type: "LOGIN_SUCCESS", payload: res.data})
         }catch(err){
             dispatch({type: "LOGIN_FAILURE"})
         }   
     }
-
-    console.log(user)
 
     return ( 
         <div className='login'>
