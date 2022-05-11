@@ -1,5 +1,6 @@
 package com.example.newswebsite.entities.embedded;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,5 +15,6 @@ public class AccountEmbedded {
     @Indexed(unique = true)
     private String username;
 
+    @JsonIgnore
     private String password;
 }

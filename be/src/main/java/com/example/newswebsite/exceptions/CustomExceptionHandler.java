@@ -25,36 +25,36 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(DuplicatedEmailException.class)
-    public final ResponseEntity<Object> handleDuplicatedEmailException(DuplicatedEmailException ex, WebRequest req){
+    @ExceptionHandler(DuplicatedValueException.class)
+    public final ResponseEntity<Object> handleDuplicatedValueException(DuplicatedValueException ex, WebRequest req){
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
-        ErrorResponse error = new ErrorResponse("Email Duplicated", details);
+        ErrorResponse error = new ErrorResponse("Value Duplicated", details);
         return new ResponseEntity(error, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(DuplicatedUsernameException.class)
-    public final ResponseEntity<Object> handleDuplicatedUsernameException(DuplicatedUsernameException ex, WebRequest req){
-        List<String> details = new ArrayList<>();
-        details.add(ex.getLocalizedMessage());
-        ErrorResponse error = new ErrorResponse("Username Duplicated", details);
-        return new ResponseEntity(error, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(UserNotExistException.class)
-    public final ResponseEntity<Object> handleUserNotExistException(UserNotExistException ex, WebRequest req){
+    @ExceptionHandler(NonexistentUserException.class)
+    public final ResponseEntity<Object> handleUserNotExistException(NonexistentUserException ex, WebRequest req){
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorResponse error = new ErrorResponse("User Not Exist", details);
         return new ResponseEntity(error, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(PasswordIncorrectException.class)
-    public final ResponseEntity<Object> handlePasswordIncorrectException(PasswordIncorrectException ex, WebRequest req){
+    @ExceptionHandler(IncorrectValueException.class)
+    public final ResponseEntity<Object> handlePasswordIncorrectException(IncorrectValueException ex, WebRequest req){
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorResponse error = new ErrorResponse("Wrong Password", details);
         return new ResponseEntity(error, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(ConflictedOldValueException.class)
+    public final ResponseEntity<Object> handleConflictOldValueException(ConflictedOldValueException ex, WebRequest req){
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse("The current value is conflicted with old value", details);
+        return new ResponseEntity(error, HttpStatus.CONFLICT);
     }
 
     @Override

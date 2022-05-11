@@ -7,9 +7,14 @@ import axiosInstance from "../../helper/axios.js"
 export default function Settings(){
     const {user, dispatch} = useContext(Context)
     const [file, setFile] = useState(null)
+
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [phone, setPhone] = useState("")
+    const [fullname, setFullname] = useState("")
+
+
     const [success, setSuccess] = useState(false)
     const PF = "http://localhost:5000/images/"
 
@@ -17,25 +22,35 @@ export default function Settings(){
         e.preventDefault();
         dispatch({type:"UPDATE_START"})
         const updatedUser = {
-            userId: user._id,
-            username, email, password
+            id: user.id,
+            account: {
+                username,
+                password
+            }, 
+            email,
+            phone,
+            fullname,
+            image: "",
+            role: ""
         };
-        if(file){
-            const data = new FormData();
-            const filename = Date.now() + file.name;
-            data.append("name", filename);
-            data.append("file", file);
-            updatedUser.profilePic = filename;
-            try{
-                await axiosInstance.post("/upload", data);
-                setSuccess(true);
-            }catch(err){}
-        }
+        console.log(updatedUser);
+        // if(file){
+        //     const data = new FormData();
+        //     const filename = Date.now() + file.name;
+        //     data.append("name", filename);
+        //     data.append("file", file);
+        //     updatedUser.profilePic = filename;
+        //     try{
+        //         await axiosInstance.post("/upload", data);
+        //         setSuccess(true);
+        //     }catch(err){}
+        // }
         try{
-            const res = await axiosInstance.put("/users/" + user._id, updatedUser);
+            const res = await axiosInstance.put("/user", updatedUser);
             setSuccess(true);
             dispatch({type:"UPDATE_SUCCESS", payload: res.data})
-            // window.location.reload();
+            setTimeout(window.location.reload(), 4000);
+            // 
         }catch(err){ 
             dispatch({type:"UPDATE_FAILURE"})
         }
@@ -46,13 +61,11 @@ export default function Settings(){
            <div className="settingsWrapper">
                 <div className="settingsTitle">
                     <span className="settingsUpdateTitle">Update Your Account</span>
-                    <span className="settingsUpdateTitle">Delete Account</span>
                 </div>
                 <form className="settingsForm" onSubmit={handleSubmit}>
                     <label>Profile Picture</label>
                     <div className="settingsPP">
                         <img
-                            // src="https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
                             src={file ? URL.createObjectURL(file) : PF+user.profilePic}
                             alt=""
                         />
@@ -62,11 +75,15 @@ export default function Settings(){
                         <input type="file" id="fileInput" style={{display: "none"}} onChange={(e) => setFile(e.target.files[0])}/>
                     </div>
                     <label>Username</label>
-                    <input type="text" placeholder={user.username} onChange={(e) => setUsername(e.target.value)}/>
+                    <input type="text" placeholder={user.account.username} onChange={(e) => setUsername(e.target.value)}/>
                     <label>Email</label>
                     <input type="text" placeholder={user.email} onChange={(e) => setEmail(e.target.value)}/>
                     <label>Password</label>
                     <input type="text" placeholder="password" onChange={(e) => setPassword(e.target.value)}/>
+                    <label>Phone</label>
+                    <input type="text" placeholder={user.phone} onChange={(e) => setPhone(e.target.value)}/>
+                    <label>Fullname</label>
+                    <input type="text" placeholder={user.fullname} onChange={(e) => setFullname(e.target.value)}/>
                     <button className="settingsSubmit" type="submit">Update</button>
                     {success && <span style={{color: "green", textAlign:"center", marginTop: "20px"}}>Profile has been updated...</span>}
                 </form>

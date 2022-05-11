@@ -23,24 +23,24 @@ public class AuthController {
     private AuthService authService;
 
     /***
-     * @author: unfame
+     * @author: Unfame
      * @return: Account's information has just been registered
-     * @throws DuplicatedEmailException : Return Exception if Email was duplicated
-     * @throws DuplicatedUsernameException : Return Exception if Username was duplicated
+     * @throws DuplicatedValueException : Return Exception if Email was duplicated
+     * @throws DuplicatedValueException : Return Exception if Username was duplicated
      */
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody UserDto userDto) throws DuplicatedUsernameException, DuplicatedEmailException{
+    public ResponseEntity<User> register(@Valid @RequestBody UserDto userDto) throws DuplicatedValueException{
         return new ResponseEntity<>(authService.register(userDto), HttpStatus.OK);
     }
 
     /***
-     * @author: unfame
+     * @author: Unfame
      * @return: Account's information has just been logged in
-     * @throws UserNotExistException : Return Exception if Email was duplicated
-     * @throws PasswordIncorrectException : Return Exception if Username was duplicated
+     * @throws NonexistentUserException : Return Exception if no User was founded
+     * @throws IncorrectValueException : Return Exception if Password was wrong
      */
     @PostMapping("/login")
-    public ResponseEntity<User> login(@Valid @RequestBody UserDto userDto) throws UserNotExistException, PasswordIncorrectException {
+    public ResponseEntity<User> login(@Valid @RequestBody UserDto userDto) throws NonexistentUserException, IncorrectValueException {
         return new ResponseEntity<>(authService.login(userDto), HttpStatus.OK);
     }
 }
