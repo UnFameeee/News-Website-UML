@@ -1,7 +1,7 @@
 package com.example.newswebsite.services.auth;
 
-import com.example.newswebsite.configs.EncryptPassSingleton;
-import com.example.newswebsite.configs.ModelMapperSingleton;
+import com.example.newswebsite.utils.EncryptPassSingleton;
+import com.example.newswebsite.utils.ModelMapperSingleton;
 import com.example.newswebsite.dtos.UserDto;
 import com.example.newswebsite.entities.User;
 import com.example.newswebsite.entities.embedded.AccountEmbedded;

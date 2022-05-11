@@ -1,7 +1,8 @@
 package com.example.newswebsite.services.user;
 
-import com.example.newswebsite.configs.EncryptPassSingleton;
-import com.example.newswebsite.configs.ModelMapperSingleton;
+import com.example.newswebsite.utils.EncryptPassSingleton;
+import com.example.newswebsite.utils.LoopObjectInstance;
+import com.example.newswebsite.utils.ModelMapperSingleton;
 import com.example.newswebsite.dtos.UserDto;
 import com.example.newswebsite.entities.User;
 import com.example.newswebsite.entities.embedded.AccountEmbedded;
@@ -11,13 +12,14 @@ import com.example.newswebsite.exceptions.NonexistentUserException;
 import com.example.newswebsite.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -35,15 +37,27 @@ public class UserServiceImpl implements UserService {
         Optional<User> oldUser = userRepository.findUserById(user.getId());
         if(oldUser.isEmpty()){
             throw new NonexistentUserException("Please login to continue your work !!!");
-        }else if(userRepository.findUserByUsernameButNotTheSameId(user.getId(), acc.getUsername()).isPresent()){
+        }
+        AccountEmbedded oldAcc = oldUser.get().getAccount();
+
+        LoopObjectInstance.getInstance().mergingContent(AccountEmbedded.class, acc, oldAcc);
+        LoopObjectInstance.getInstance().mergingContent(User.class, user, oldUser.get());
+
+        //check conflict username and email
+        if(userRepository.findUserByUsernameButNotTheSameId(user.getId(), acc.getUsername()).isPresent()){
             throw new DuplicatedValueException("Username existed !!!");
         }else if(userRepository.findUserByEmailButNotTheSameId(user.getId(), user.getEmail()).isPresent()){
             throw new DuplicatedValueException("Email existed !!!");
-        }else if(EncryptPassSingleton.getInstance().compare(acc.getPassword(), oldUser.get().getAccount().getPassword())){
-            throw new ConflictedOldValueException("This password was used in the pass !!!");
         }
 
-        acc.setPassword(EncryptPassSingleton.getInstance().encrypt(acc.getPassword()));
+        //check if pass was hashed if it's not hash it
+        if(!EncryptPassSingleton.getInstance().checkHashed(acc.getPassword())){
+            if(EncryptPassSingleton.getInstance().compare(acc.getPassword(), oldUser.get().getAccount().getPassword())){
+                throw new ConflictedOldValueException("This password was used in the pass !!!");
+            }
+            acc.setPassword(EncryptPassSingleton.getInstance().encrypt(acc.getPassword()));
+        }
+
         user.setAccount(acc);
 
         return userRepository.save(user);

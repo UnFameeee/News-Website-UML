@@ -1,11 +1,9 @@
-package com.example.newswebsite.configs;
+package com.example.newswebsite.utils;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class EncryptPassSingleton {
     private static EncryptPassSingleton instance;
-    private static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private EncryptPassSingleton(){
     }
 
@@ -21,10 +19,15 @@ public class EncryptPassSingleton {
     }
 
     public String encrypt(String pass){
-        return passwordEncoder.encode(pass);
+        String salt = BCrypt.gensalt(10);
+        return BCrypt.hashpw(pass, salt);
+    }
+
+    public boolean checkHashed(String pass){
+        return pass.startsWith("$2a$10$");
     }
 
     public boolean compare(String rawPass, String encodePass){
-        return passwordEncoder.matches(rawPass, encodePass);
+        return BCrypt.checkpw(rawPass, encodePass);
     }
 }

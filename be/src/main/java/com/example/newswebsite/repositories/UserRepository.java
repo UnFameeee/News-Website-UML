@@ -19,16 +19,13 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query("{_id:'?0'}")
     Optional<User> findUserById(String id);
 
-    @Query("{account: {username: '?0'}}")
+    @Query("{ 'account.username': '?0'}")
     Optional<User> findUserByUsername(String username);
 
-    @Query("{ $and{ {_id : {$ne: {'?0'}}}, {account: {username: '?1'}} } }")
+    @Query("{ _id : {$ne: '?0'}, 'account.username': '?1'}")
     Optional<User> findUserByUsernameButNotTheSameId(String id, String username);
 
-    @Query("{ $and{ {_id : {$ne: {'?0'}}}, {email: '?1'} } }")
+    @Query("{ _id : {$ne: '?0'}, email: '?1'}")
     Optional<User> findUserByEmailButNotTheSameId(String id, String email);
-
-//    @Query("{address : { $regex: ?0 } }")
-//    List<User> findCustomByRegExAddress(String domain);
 }
 
