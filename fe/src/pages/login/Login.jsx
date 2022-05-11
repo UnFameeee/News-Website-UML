@@ -18,7 +18,7 @@ export default function Login(){
                 account: {
                     password: passwordRef.current.value
                 }
-            }
+            } 
             const res = await axiosInstance.post("/auth/login", data);
             dispatch({type: "LOGIN_SUCCESS", payload: res.data})
         }catch(err){

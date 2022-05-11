@@ -29,8 +29,6 @@ export default function Register(){
             console.log(data);
 
             const res = await axiosInstance.post("/auth/register", data)
-            
-            console.log(res);
             res.data && window.location.replace("/login")
         }catch(err){
             setError(true);

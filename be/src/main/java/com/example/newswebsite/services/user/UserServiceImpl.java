@@ -1,23 +1,26 @@
 package com.example.newswebsite.services.user;
 
+import com.example.newswebsite.configs.EncryptPassSingleton;
+import com.example.newswebsite.configs.ModelMapperSingleton;
 import com.example.newswebsite.dtos.UserDto;
 import com.example.newswebsite.entities.User;
+import com.example.newswebsite.entities.embedded.AccountEmbedded;
+import com.example.newswebsite.exceptions.ConflictedOldValueException;
+import com.example.newswebsite.exceptions.DuplicatedValueException;
+import com.example.newswebsite.exceptions.NonexistentUserException;
 import com.example.newswebsite.repositories.UserRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
-    private final ModelMapper modelMapper;
-
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -25,19 +28,24 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAllUser();
     }
 
-//    @Override
-//    public void deleteUser(Long id) {
-//        userRepository.deleteById(id);
-//    }
+    @Override
+    public User updateUser(UserDto userDto) throws NonexistentUserException, ConflictedOldValueException, DuplicatedValueException {
+        User user = ModelMapperSingleton.getInstance().modelMapper().map(userDto, User.class);
+        AccountEmbedded acc = user.getAccount();
+        Optional<User> oldUser = userRepository.findUserById(user.getId());
+        if(oldUser.isEmpty()){
+            throw new NonexistentUserException("Please login to continue your work !!!");
+        }else if(userRepository.findUserByUsernameButNotTheSameId(user.getId(), acc.getUsername()).isPresent()){
+            throw new DuplicatedValueException("Username existed !!!");
+        }else if(userRepository.findUserByEmailButNotTheSameId(user.getId(), user.getEmail()).isPresent()){
+            throw new DuplicatedValueException("Email existed !!!");
+        }else if(EncryptPassSingleton.getInstance().compare(acc.getPassword(), oldUser.get().getAccount().getPassword())){
+            throw new ConflictedOldValueException("This password was used in the pass !!!");
+        }
 
-//    @Override
-//    public Optional<Users> findUserById(Long id) {
-//        return userRepository.findById(id);
-//    }
+        acc.setPassword(EncryptPassSingleton.getInstance().encrypt(acc.getPassword()));
+        user.setAccount(acc);
 
-//    @Override
-//    public Optional<User> findUserByEmail(String email) {
-//        return Optional.ofNullable(userRepository.findPasswordByEmail(email));
-//    }
-
+        return userRepository.save(user);
+    }
 }
