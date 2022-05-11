@@ -50,9 +50,6 @@ export default function TopBar(){
                         <li className="topListItem">
                             <Link className="link" to="/login">LOGIN</Link>
                         </li>
-                        <li className="topListItem">
-                            <Link className="link" to="/register">REGISTER</Link>
-                        </li>
                     </ul>
                 )}
 

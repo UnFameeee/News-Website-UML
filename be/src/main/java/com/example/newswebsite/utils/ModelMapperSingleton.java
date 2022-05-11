@@ -1,4 +1,4 @@
-package com.example.newswebsite.configs;
+package com.example.newswebsite.utils;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
