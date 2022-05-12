@@ -3,7 +3,7 @@ import Sidebar from "../../component/sidebar/Sidebar"
 import { useContext, useState } from "react"
 import { Context } from "../../context/Context"
 import axiosInstance from "../../helper/axios.js"
-import { storage } from "../../firebase/firebase-db";
+import uploadFiles from "../../helper/firebaseUploadImage"
 
 export default function Settings(){
     const {user, dispatch} = useContext(Context)
@@ -16,10 +16,17 @@ export default function Settings(){
     const [fullname, setFullname] = useState("")
 
     const [success, setSuccess] = useState(false)
-        
+
     const handleSubmit = async (e) =>{
         e.preventDefault();
         dispatch({type:"UPDATE_START"})
+
+        let imageURL = "";
+        if(file !== null){
+            imageURL = await uploadFiles(file);
+        }
+        
+        console.log(imageURL);
 
         const updatedUser = {
             id: user.id,
@@ -30,26 +37,15 @@ export default function Settings(){
             email,
             phone,
             fullname,
-            image: "",
+            image: imageURL,
             role: ""
         };
-        // if(file){
-        //     const data = new FormData();
-        //     const filename = Date.now() + file.name;
-        //     data.append("name", filename);
-        //     data.append("file", file);
-        //     updatedUser.profilePic = filename;
-        //     try{
-        //         await axiosInstance.post("/upload", data);
-        //         setSuccess(true);
-        //     }catch(err){}
-        // }
+
         try{
             const res = await axiosInstance.put("/user", updatedUser);
             setSuccess(true);
             dispatch({type:"UPDATE_SUCCESS", payload: res.data})
-            setTimeout(window.location.reload(), 4000);
-            // 
+            setTimeout(window.location.reload(), 5000);
         }catch(err){ 
             dispatch({type:"UPDATE_FAILURE"})
         }
@@ -65,14 +61,15 @@ export default function Settings(){
                     <label>Profile Picture</label>
                     <div className="settingsPP">
                         <img
-                            src={file ? URL.createObjectURL(file) : user.profilePic}
+                            src={file ? URL.createObjectURL(file) : user.image ? user.image : "https://firebasestorage.googleapis.com/v0/b/uml-final.appspot.com/o/files%2Fimage-null-person.jpg?alt=media&token=4368e366-d59c-450e-9962-790ab5991b9c" }
                             alt=""
                         />
                         <label htmlFor="fileInput">
                             <i className="settingsPPIcon fa-solid fa-user"></i>
                         </label>
-                        <input type="file" id="fileInput" style={{display: "none"}} onChange={(e) => setFile(e.target.files[0])}/>
+                        <input type="file" id="fileInput" style={{display: "none"}} onChange={(e) => setFile(e.target.files[0])} />
                     </div>
+
                     <label>Username</label>
                     <input type="text" placeholder={user.account.username} onChange={(e) => setUsername(e.target.value)}/>
                     <label>Email</label>

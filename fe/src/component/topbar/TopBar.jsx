@@ -5,7 +5,6 @@ import "./topbar.css"
 
 export default function TopBar(){
     const {user, dispatch} = useContext(Context);
-    const PF = "http://localhost:5000/images/"
     const handleLogout = () => {
         dispatch({type: "LOGOUT"});
     }
@@ -42,7 +41,7 @@ export default function TopBar(){
                     <Link to="/setting">
                         <img 
                             className="topImg"
-                            src={PF+user.profilePic}
+                            src={user.image ? user.image : "https://firebasestorage.googleapis.com/v0/b/uml-final.appspot.com/o/files%2Fimage-null-person.jpg?alt=media&token=4368e366-d59c-450e-9962-790ab5991b9c"}
                             alt="" />
                     </Link>
                 ):( 
@@ -58,5 +57,3 @@ export default function TopBar(){
         </div>
     )
 }
-
-// <Link className="link" to="/login">LOGOUT</Link>
