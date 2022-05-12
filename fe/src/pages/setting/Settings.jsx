@@ -3,6 +3,7 @@ import Sidebar from "../../component/sidebar/Sidebar"
 import { useContext, useState } from "react"
 import { Context } from "../../context/Context"
 import axiosInstance from "../../helper/axios.js"
+import { storage } from "../../firebase/firebase-db";
 
 export default function Settings(){
     const {user, dispatch} = useContext(Context)
@@ -14,13 +15,12 @@ export default function Settings(){
     const [phone, setPhone] = useState("")
     const [fullname, setFullname] = useState("")
 
-
     const [success, setSuccess] = useState(false)
-    const PF = "http://localhost:5000/images/"
-
+        
     const handleSubmit = async (e) =>{
         e.preventDefault();
         dispatch({type:"UPDATE_START"})
+
         const updatedUser = {
             id: user.id,
             account: {
@@ -33,7 +33,6 @@ export default function Settings(){
             image: "",
             role: ""
         };
-        console.log(updatedUser);
         // if(file){
         //     const data = new FormData();
         //     const filename = Date.now() + file.name;
@@ -66,7 +65,7 @@ export default function Settings(){
                     <label>Profile Picture</label>
                     <div className="settingsPP">
                         <img
-                            src={file ? URL.createObjectURL(file) : PF+user.profilePic}
+                            src={file ? URL.createObjectURL(file) : user.profilePic}
                             alt=""
                         />
                         <label htmlFor="fileInput">
