@@ -2,14 +2,14 @@ package com.example.newswebsite.utils;
 
 import java.lang.reflect.Field;
 
-public class LoopObjectInstance {
-    private static LoopObjectInstance instance;
-    private LoopObjectInstance(){}
-    public static LoopObjectInstance getInstance(){
+public class LoopObjectSingleton {
+    private static LoopObjectSingleton instance;
+    private LoopObjectSingleton(){}
+    public static LoopObjectSingleton getInstance(){
         if(instance == null){
-            synchronized (LoopObjectInstance.class){
+            synchronized (LoopObjectSingleton.class){
                 if(instance == null){
-                    instance = new LoopObjectInstance();
+                    instance = new LoopObjectSingleton();
                 }
             }
         }

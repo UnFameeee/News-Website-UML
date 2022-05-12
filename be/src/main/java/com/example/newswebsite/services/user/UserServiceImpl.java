@@ -1,7 +1,7 @@
 package com.example.newswebsite.services.user;
 
 import com.example.newswebsite.utils.EncryptPassSingleton;
-import com.example.newswebsite.utils.LoopObjectInstance;
+import com.example.newswebsite.utils.LoopObjectSingleton;
 import com.example.newswebsite.utils.ModelMapperSingleton;
 import com.example.newswebsite.dtos.UserDto;
 import com.example.newswebsite.entities.User;
@@ -12,7 +12,6 @@ import com.example.newswebsite.exceptions.NonexistentUserException;
 import com.example.newswebsite.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,8 +39,8 @@ public class UserServiceImpl implements UserService {
         }
         AccountEmbedded oldAcc = oldUser.get().getAccount();
 
-        LoopObjectInstance.getInstance().mergingContent(AccountEmbedded.class, acc, oldAcc);
-        LoopObjectInstance.getInstance().mergingContent(User.class, user, oldUser.get());
+        LoopObjectSingleton.getInstance().mergingContent(AccountEmbedded.class, acc, oldAcc);
+        LoopObjectSingleton.getInstance().mergingContent(User.class, user, oldUser.get());
 
         //check conflict username and email
         if(userRepository.findUserByUsernameButNotTheSameId(user.getId(), acc.getUsername()).isPresent()){
