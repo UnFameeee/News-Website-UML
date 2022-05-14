@@ -52,7 +52,7 @@ export default function TopBar(){
                     </ul>
                 )}
 
-                <i className="topSearchIcon fas fa-magnifying-glass"></i>
+                <text className="topUsernameText">{user.account.username}</text>
             </div>
         </div>
     )

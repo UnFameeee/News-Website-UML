@@ -57,9 +57,8 @@
     cursor: pointer;
 }
 
-.topSearchIcon{
+.topUsernameText{
     font-size: 18px;
     color: white;
-    cursor: pointer;
     margin-left: 15px;
 }
