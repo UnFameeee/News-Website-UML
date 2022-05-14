@@ -8,10 +8,10 @@
 
 .writeImg{
     margin-left: 150px;
-    width: 70vw;
-    height: 250px;
+    width: 84vw;
+    height: 500px;
     border-radius: 10px;
-    /* object-fit: cover; */
+    object-fit: contain;
 }
 
 .writeFormGroup{
@@ -37,7 +37,9 @@
     font-size: 30px;
     border: none;
     padding: 20px;
-    width: 70vw;
+    width: 82vw;
+    overflow: hidden;
+    resize: none;
 }
 
 .writeInput:focus{
@@ -47,12 +49,13 @@
 .writeText{
     font-size: 20px;
     height: 100vh;
+    overflow: hidden;
 }
 
 .writeSubmit{
     position: absolute;
     top: 20px;
-    right: 50px;
+    right: 7.3%;
     color: white;
     background-color: teal;
     padding: 10px;

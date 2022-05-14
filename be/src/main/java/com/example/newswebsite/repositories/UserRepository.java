@@ -13,10 +13,10 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query("{}")
     List<User> findAllUser();
 
-    @Query("{'email': ?0}")
+    @Query("{'email': '?0'}")
     Optional<User> findUserByEmail(String email);
 
-    @Query("{_id:'?0'}")
+    @Query("{_id: '?0'}")
     Optional<User> findUserById(String id);
 
     @Query("{ 'account.username': '?0'}")

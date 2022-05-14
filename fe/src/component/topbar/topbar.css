@@ -10,6 +10,9 @@
 
     z-index: 999;
 
+    background-color: #004370;
+    color: white;
+
     font-family: 'Josefin Sans', sans-serif;
 }   
 
@@ -27,13 +30,13 @@
 .topIcon{
     font-size: 20px;
     margin-right: 10px;
-    color: #444;
+    color: white;
     cursor: pointer;
 }
 
 .topImg{
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;
@@ -50,13 +53,13 @@
 .topListItem{
     margin-right: 20px;
     font-size: 18px;
-    font-weight: 300;
+    font-weight: 600;
     cursor: pointer;
 }
 
 .topSearchIcon{
     font-size: 18px;
-    color: #666;
+    color: white;
     cursor: pointer;
     margin-left: 15px;
 }
