@@ -41,6 +41,8 @@ export default function Settings(){
             role: ""
         };
 
+        console.log(updatedUser)
+
         try{
             const res = await axiosInstance.put("/user", updatedUser);
             setSuccess(true);
@@ -61,7 +63,7 @@ export default function Settings(){
                     <label>Profile Picture</label>
                     <div className="settingsPP">
                         <img
-                            src={file ? URL.createObjectURL(file) : user.image ? user.image : "https://firebasestorage.googleapis.com/v0/b/uml-final.appspot.com/o/files%2Fimage-null-person.jpg?alt=media&token=4368e366-d59c-450e-9962-790ab5991b9c" }
+                            src={file ? URL.createObjectURL(file) : user.image ? user.image : "https://firebasestorage.googleapis.com/v0/b/uml-final.appspot.com/o/static_img%2Favatar-placeholder.png?alt=media&token=cce1eeaa-6b3a-407b-92ec-ff505016f167" }
                             alt=""
                         />
                         <label htmlFor="fileInput">

@@ -16,18 +16,7 @@ export default function Write(){
             title,
             desc
         };
-        if(file){
-            const data = new FormData();
-            const filename = Date.now() + file.name;
-            data.append("name", filename);
-            data.append("file", file);
-            newPost.photo = filename;
-            try{
-                await axiosInstance.post("/upload", data);
-            }catch(err){
-                
-            }
-        }
+
         axiosInstance.post("/posts")
         try{
             const res = await axiosInstance.post("/posts", newPost);
@@ -37,16 +26,18 @@ export default function Write(){
         }
     }
 
+    const auto_grow = (e) => {
+        e.target.style.height = 'inherit';
+        e.target.style.height = `${e.target.scrollHeight}px`;
+    }
+
     return ( 
         <div className='write'>
-            {file &&
             <img
                 className="writeImg"
-                // src="https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                src={URL.createObjectURL(file)}
+                src= {file ? URL.createObjectURL(file) : "https://firebasestorage.googleapis.com/v0/b/uml-final.appspot.com/o/static_img%2Fempty%20image.png?alt=media&token=79da93b8-ce8c-4df0-9e45-82d974b1afae"}
                 alt=""
-            />
-            }   
+            /> 
             <form className="writeForm" onSubmit={handleSubmit}>
                 <div className="writeFormGroup">
                     <label htmlFor="fileInput">
@@ -56,7 +47,7 @@ export default function Write(){
                     <input type="text" placeholder="Title" className="writeInput" autoFocus={true} onChange={e=>setTitle(e.target.value)}/>
                 </div>
                 <div className="writeFormGroup">
-                    <textarea placeholder="Tell your story..." type="text" className="writeInput writeText" onChange={e=>setDesc(e.target.value)}></textarea>
+                    <textarea placeholder="Tell your story..." type="text" className="writeInput writeText" onInput={auto_grow} onChange={e=>setDesc(e.target.value)}></textarea>
                 </div>
                 <button className="writeSubmit" type="submit" onSubmit={handleSubmit}>Submit</button>
             </form>

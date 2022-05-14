@@ -1,5 +1,5 @@
 .header{
-    margin-top: 60px;
+    margin-top: 0px;
 }
 
 .headerTitles{
@@ -7,24 +7,34 @@
     flex-direction: column;
     align-items: center;
     font-family: 'Lora', serif;
-    color: #444;
+    color: white;
 }
 
 .headerTitleSm{
     position: absolute;
-    top: 18%;
+    top: 28%;
+    padding-bottom: 15px;
+    padding-top: 15px;
     font-size: 20px;
+    font-weight: bold;
+    width: 50%;
+    text-align: center;
+    background-color: #004370;
 }
 
 .headerTitleLg{
     position: absolute;
-    top: 20%;
+    top: 15%;
     font-size: 100px;
+    width: 50%;
+    text-align: center; 
+    background-color: #004370;
+    font-weight: bold;
 }
 
 .headerImg{
     width: 100%;
     height: 450px;
-    margin-top: 80px;
+    margin-top: 0px;
     object-fit: cover;
 }
