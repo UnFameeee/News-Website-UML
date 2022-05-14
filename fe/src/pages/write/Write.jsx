@@ -2,19 +2,30 @@ import "./write.css";
 import { useContext, useState } from "react";
 import { Context } from "../../context/Context";
 import axiosInstance from "../../helper/axios.js";
+import uploadFiles from "../../helper/firebaseUploadImage";
 
 export default function Write(){
     const [title, setTitle] = useState("")
-    const [desc, setDesc] = useState("")
+    const [content, setContent] = useState("")
     const [file, setFile] = useState(null)
     const {user} = useContext(Context);
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
+        
+        let imageURL = "";
+        if(file !== null){
+            imageURL = await uploadFiles(file);
+        }
+
         const newPost = {
-            username: user.username,
+            userId: user.id,
+            image: imageURL,
             title,
-            desc
+            content,
+            status: "",
+            categoryName: "",
+            publishedDate: ""
         };
 
         axiosInstance.post("/posts")
@@ -47,7 +58,7 @@ export default function Write(){
                     <input type="text" placeholder="Title" className="writeInput" autoFocus={true} onChange={e=>setTitle(e.target.value)}/>
                 </div>
                 <div className="writeFormGroup">
-                    <textarea placeholder="Tell your story..." type="text" className="writeInput writeText" onInput={auto_grow} onChange={e=>setDesc(e.target.value)}></textarea>
+                    <textarea placeholder="Tell your story..." type="text" className="writeInput writeText" onInput={auto_grow} onChange={e=>setContent(e.target.value)}></textarea>
                 </div>
                 <button className="writeSubmit" type="submit" onSubmit={handleSubmit}>Submit</button>
             </form>

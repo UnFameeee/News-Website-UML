@@ -1,8 +1,9 @@
 .sidebar{
-    flex: 3;
+    flex: 2;
     margin: 20px;
-    padding-bottom: 30px;
-    background-color: #fbfbfb;
+    padding: 10px 10px 30px 10px;
+    /* padding-bottom: 30px; */
+    background-color: #E6E8EC;
     border-radius: 10px;
     flex-direction: column;
     align-items: center;
@@ -15,23 +16,62 @@
 }
 
 .sidebarTitle{
-    margin: 10px;
+    margin: 5px 10px 5px 10px;
     padding: 5px;
-
-    width: 80%;
+    width: 87%;
 
     border-top: 1px solid #a7a4a4;
     border-bottom: 1px solid #a7a4a4;
     font-family: 'Valera Round', sans-serif;
-    font-size: 12px;
+    font-size: 16px;
     color: #222;
     font-weight: 600;
     line-height: 20px;
     text-align: center;
 }
 
-.sidebarItem > img{
-    margin-top: 15px;
+.sidebarSearchItem{
+    width: 90%;
+    display: flex;
+    align-self: flex-start;
+    /* justify-content: center; */
+}
+
+
+.searchInput{  
+    align-self: flex-start;
+    padding-left: 10px; 
+    width: 100%;
+    height: 30px;
+    border: none;
+    font-size: 14px;
+}
+
+.searchButton{  
+    background-color: #585D69;
+    align-self: flex-end;
+    margin-left: 5px;
+    padding: 0%;
+    width: 60%;
+    height: 31px;
+    border: none;
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+}
+.searchButton:active{
+    background-color: gray
+}
+
+
+.searchButton > i{
+    margin: 0%;
+    padding: 0 5px 0 0;
+    color: white;
+}
+.sidebarSearchItem{
+    margin: 15px;
 }
 
 .sidebarItem > p{

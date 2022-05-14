@@ -18,13 +18,13 @@ export default function Sidebar(){
     return ( 
         <div className="sidebar">
             <div className="sidebarItem">
-                <span className="sidebarTitle">ABOUT ME</span>
-                <img src="https://themegoods-cdn-pzbycso8wng.stackpathdns.com/grandblog/demo/wp-content/uploads/2015/11/aboutme.jpg"
-                     alt="" />
-                <p>
-                    Laboris sunt aute cupidatat velit magna velit ullamco dolore mollit
-                    amet ex esse.Sunt eu ut nostrud id quis proident.
-                </p>
+                {/* <span className="sidebarTitle">
+                    <label>Tìm kiếm</label>
+                </span> */}
+                <div className="sidebarSearchItem">
+                    <input type="text" className="searchInput" placeholder="Tìm kiếm tin tức..." />
+                    <button className="searchButton"><i className="topSearchIcon fas fa-magnifying-glass"></i>Tìm kiếm</button>
+                </div>
             </div>
             <div className="sidebarItem">
                 <span className="sidebarTitle">CATEGORIES</span>
@@ -34,18 +34,17 @@ export default function Sidebar(){
                             <li className="sidebarListItem">{c.name}</li>
                         </Link>
                     ))} */}
-                    
                 </ul>
             </div>
 
-            <div className="sidebarItem">
+            {/* <div className="sidebarItem">
                 <span className="sidebarTitle">FOLLOW US</span>
                 <ul className="sidebarSocial">
                     <i className="sidebarIcon fa-brands fa-facebook-square"></i>
                     <i className="sidebarIcon fa-brands fa-twitter-square"></i>
                     <i className="sidebarIcon fa-brands fa-google-plus-square"></i>
                 </ul>
-            </div>
+            </div> */}
         </div>
     )
 }
