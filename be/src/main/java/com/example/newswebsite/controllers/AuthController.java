@@ -36,11 +36,11 @@ public class AuthController {
     /***
      * @author: Unfame
      * @return: Account's information has just been logged in
-     * @throws NonexistentUserException : Return Exception if no User was founded
+     * @throws NonexistentValueException : Return Exception if no User was founded
      * @throws IncorrectValueException : Return Exception if Password was wrong
      */
     @PostMapping("/login")
-    public ResponseEntity<User> login(@Valid @RequestBody UserDto userDto) throws NonexistentUserException, IncorrectValueException {
+    public ResponseEntity<User> login(@Valid @RequestBody UserDto userDto) throws NonexistentValueException, IncorrectValueException {
         return new ResponseEntity<>(authService.login(userDto), HttpStatus.OK);
     }
 }

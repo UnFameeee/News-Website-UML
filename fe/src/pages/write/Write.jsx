@@ -27,11 +27,9 @@ export default function Write(){
             categoryName: "",
             publishedDate: ""
         };
-
-        axiosInstance.post("/posts")
         try{
-            const res = await axiosInstance.post("/posts", newPost);
-            window.location.replace("/post/" + res.data._id);
+            const res = await axiosInstance.post("/articles", newPost);
+            window.location.replace("/articles/" + res.data.id);
         }catch(err){
 
         }

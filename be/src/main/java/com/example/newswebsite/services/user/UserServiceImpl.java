@@ -8,7 +8,7 @@ import com.example.newswebsite.entities.User;
 import com.example.newswebsite.entities.embedded.AccountEmbedded;
 import com.example.newswebsite.exceptions.ConflictedOldValueException;
 import com.example.newswebsite.exceptions.DuplicatedValueException;
-import com.example.newswebsite.exceptions.NonexistentUserException;
+import com.example.newswebsite.exceptions.NonexistentValueException;
 import com.example.newswebsite.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +25,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUser() {
-        return userRepository.findAllUser();
+    public List<User> getAllUser() throws Exception {
+        try {
+            return userRepository.findAllUser();
+        }catch (Exception ex){
+            throw new Exception("System error, detail: " + ex);
+        }
     }
 
     @Override
-    public User updateUser(UserDto userDto) throws NonexistentUserException, ConflictedOldValueException, DuplicatedValueException {
+    public User getOneUser(String id) throws NonexistentValueException {
+        Optional<User> user = userRepository.findUserById(id);
+        if(user.isEmpty()){
+            throw new NonexistentValueException("User doesn't exist !!!");
+        }
+        return user.get();
+    }
+
+    @Override
+    public User updateUser(UserDto userDto) throws NonexistentValueException, ConflictedOldValueException, DuplicatedValueException {
         User user = ModelMapperSingleton.getInstance().modelMapper().map(userDto, User.class);
         AccountEmbedded acc = user.getAccount();
         Optional<User> oldUser = userRepository.findUserById(user.getId());
         if(oldUser.isEmpty()){
-            throw new NonexistentUserException("Please login to continue your work !!!");
+            throw new NonexistentValueException("Please login to continue your work !!!");
         }
         AccountEmbedded oldAcc = oldUser.get().getAccount();
 

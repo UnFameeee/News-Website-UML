@@ -33,8 +33,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(error, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(NonexistentUserException.class)
-    public final ResponseEntity<Object> handleUserNotExistException(NonexistentUserException ex, WebRequest req){
+    @ExceptionHandler(NonexistentValueException.class)
+    public final ResponseEntity<Object> handleUserNotExistException(NonexistentValueException ex, WebRequest req){
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorResponse error = new ErrorResponse("User Not Exist", details);
