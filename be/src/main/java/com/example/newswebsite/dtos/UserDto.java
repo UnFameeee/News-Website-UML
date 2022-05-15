@@ -17,5 +17,6 @@ public class UserDto {
     private String phone;
     private String fullname;
     private String image;
+    private String description;
     private String role;
 }

@@ -9,28 +9,27 @@ export default function SinglePost(){
     const path = location.pathname.split("/")[2];
     const [post, setPost] = useState({})
 
-    const PF = "http://localhost:5000/images/";
-
     const {user} = useContext(Context)
+    const [author, setAuthor] = useState("")
     const [title, setTitle] = useState("")
-    const [desc, setDesc] = useState("")
+    const [content, setContent] = useState("")
     const [updateMode, setUpdateMode] = useState(false)
-
 
     useEffect(()=>{
         const getPost = async ()=>{
-            const res = await axiosInstance.get("/posts/" + path);
+            const res = await axiosInstance.get("/articles/" + path);
             setPost(res.data);
             setTitle(res.data.title);
-            setDesc(res.data.desc);
+            setContent(res.data.content);
+            setAuthor(await (await axiosInstance.get("/user/" + res.data.userId)).data.account.username)
         };
-        getPost();
+        getPost()
     }, [path])
 
     const handleDelete = async() =>{
         try{
             await axiosInstance.delete(`/posts/${post._id}`, 
-                {data: {username: user.username}});
+                {data: {username: author}});
             window.location.replace("/")
         }catch(err){
             console.log(err)
@@ -42,7 +41,7 @@ export default function SinglePost(){
         try{
             await axiosInstance.put(
                 `/posts/${post._id}`,
-                {username: user.username, title: title, desc: desc}
+                {username: user.username, title: title, content: content}
             );
             window.location.reload();
         }catch(err){
@@ -53,11 +52,10 @@ export default function SinglePost(){
     return ( 
         <div className='singlePost'>
             <div className="singlePostWrapper">
-            {post.photo && (
+            {post.image && (
                 <img
                     className="singlePostImg"
-                    // src="https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                    src={PF + post.photo}
+                    src= {post.image}
                     alt=""
                     />
             )}
@@ -66,7 +64,7 @@ export default function SinglePost(){
             ) : (
                 <h1 className="singlePostTitle"> 
                     {post.title}
-                    {post.username === user?.username && (
+                    {author === user.account.username && (
                         <div className="singlePostEdit">
                             <i className="singlePostIcon fa-solid fa-pen-to-square" onClick={()=>setUpdateMode(true)}></i>
                             <i className="singlePostIcon fa-solid fa-trash-can" onClick={handleDelete}></i>
@@ -77,8 +75,8 @@ export default function SinglePost(){
                 <div className="singlePostInfo">
                     <span className="singlePostAuthor">
                         Author:
-                        <Link to={`/?user=${post.username}`} className="link">
-                            <b> {post.username}</b>
+                        <Link to={`/?user=${author}`} className="link">
+                            <b> {author}</b>
                         </Link>
                     </span>
                     <span className="singlePostDate">
@@ -86,9 +84,9 @@ export default function SinglePost(){
                     </span>
                 </div>
                 {updateMode ? (
-                <textarea className="singlePostDescInput" value={desc} onChange={(e)=>setDesc(e.target.value)}/>
+                <textarea className="singlePostContentInput" value={content} onChange={(e)=>setContent(e.target.value)}/>
                 ) : (
-                    <p className="singlePostDesc">{post.desc}</p>  
+                    <p className="singlePostContent">{post.content}</p>  
                 )} 
                 {updateMode && 
                     <button className="singlePostButton" onClick={handleUpdate}>Update</button>

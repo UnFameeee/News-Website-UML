@@ -27,7 +27,7 @@ export default function Sidebar(){
                 </div>
             </div>
             <div className="sidebarItem">
-                <span className="sidebarTitle">CATEGORIES</span>
+                <span className="sidebarTitle">Các bài báo liên quan</span>
                 <ul className="sidebarList">
                     {/* {cats.map((c) => (
                         <Link to={`/?cat=${c.name}`} className="link">

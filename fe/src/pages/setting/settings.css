@@ -1,5 +1,6 @@
 .settings{
     display: flex;
+    font-family: 'Valera Round', sans-serif;
 }
 
 .settingsWrapper{
@@ -11,12 +12,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 10px 0px 5px 0px;
 }
 
 .settingsUpdateTitle{
     font-size: 30px;
-    margin-bottom: 20px;
-    color: lightcoral;
+    color: #2F78A8;
+    font-weight: bold;
 }
 
 .settingsDeleteTitle{
@@ -37,17 +39,18 @@
 }
 
 .settingsPP > img{
-    width: 70px;
-    height: 70px;
+    width: 170px;
+    height: 170px;
     border-radius: 20px;
     object-fit: cover;
 }
 
 .settingsPPIcon{
+    font-size: 22px;
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background-color: lightcoral;
+    background-color: #69BDF5;
     color: white;
     display: flex;
     align-items: center;
@@ -57,8 +60,17 @@
 }
 
 .settingsForm > label{
-    font-size: 20px;
+    font-size: 17px;
     margin-top: 20px;
+    color: #51B3F5;
+}
+
+.settingsForm > text{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #2F78A8;
+    border-bottom: #2F78A8 1px solid;
 }
 
 .settingsForm > input{
@@ -67,6 +79,10 @@
     height: 30px;
     border: none;
     border-bottom: 1px solid lightgray ;
+}
+
+.settingsForm > input:focus{
+    outline: none;
 }
 
 
@@ -80,4 +96,8 @@
     padding: 10px;
     margin-top: 20px;
     cursor: pointer;
+}
+
+.sidebar{
+    height: 80%;
 }

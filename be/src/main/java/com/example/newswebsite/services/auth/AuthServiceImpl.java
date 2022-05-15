@@ -38,11 +38,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User login(UserDto userDto) throws NonexistentUserException, IncorrectValueException {
+    public User login(UserDto userDto) throws NonexistentValueException, IncorrectValueException {
         User user = ModelMapperSingleton.getInstance().modelMapper().map(userDto, User.class);
         Optional<User> existedUser = userRepository.findUserByEmail(user.getEmail());
         if(existedUser.isEmpty()){
-            throw new NonexistentUserException("User does not exist!!!");
+            throw new NonexistentValueException("User does not exist!!!");
         }
         AccountEmbedded acc = existedUser.get().getAccount();
         if(!EncryptPassSingleton.getInstance().compare(userDto.getAccount().getPassword(), acc.getPassword())){

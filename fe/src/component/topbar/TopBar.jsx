@@ -7,21 +7,22 @@ export default function TopBar(){
     const {user, dispatch} = useContext(Context);
     const handleLogout = () => {
         dispatch({type: "LOGOUT"});
+        console.log(user)
     }
-
 
     return ( 
         <div className='top'>
             <div className="topLeft">
-                <i className="topIcon fa-brands fa-facebook-square"></i>
+                {/* <i className="topIcon fa-brands fa-facebook-square"></i>
                 <i className="topIcon fa-brands fa-twitter-square"></i>
-                <i className="topIcon fa-brands fa-google-plus-square"></i>
+                <i className="topIcon fa-brands fa-google-plus-square"></i> */}
+                <Link className="link" to="/posts"><i className="topIcon fa-solid fa-house-chimney"></i></Link>
             </div>
             <div className="topCenter">
                 <ul className="topList">
-                    <li className="topListItem">
+                    {/* <li className="topListItem">
                         <Link className="link" to="/posts">HOME</Link>
-                    </li>
+                    </li> */}
                     <li className="topListItem">
                         <Link className="link" to="/">ABOUT</Link> 
                     </li>
@@ -52,7 +53,7 @@ export default function TopBar(){
                     </ul>
                 )}
 
-                <text className="topUsernameText">{user.account.username}</text>
+                <text className="topUsernameText">{user ? user.account.username : ""}</text>
             </div>
         </div>
     )
