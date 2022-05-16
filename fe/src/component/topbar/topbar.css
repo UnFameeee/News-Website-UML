@@ -68,4 +68,36 @@
     font-size: 18px;
     color: white;
     margin-left: 15px;
+    align-self: center;
+}
+
+.dropdown-menu{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdown-list{
+    position: absolute;
+    top: 33.5px;
+    transform: translateX(-100%);
+    background-color: var(--bg);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    overflow: hidden;
+    transition: height var(--speed) ease;
+}
+
+.dropdown-list-ele{
+    height: 45px;
+    width: 140px;
+    color: white;
+    display: flex;
+    align-items: center;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    background: #5EB7F2;
+    text-decoration: none;
+    cursor: pointer;
 }

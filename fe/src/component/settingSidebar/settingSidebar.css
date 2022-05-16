@@ -1,5 +1,5 @@
-.sidebar{
-    flex: 2;
+.sidebarSetting{
+    flex: 3;
     margin: 20px;
     padding: 10px 10px 30px 10px;
     /* padding-bottom: 30px; */
@@ -7,15 +7,16 @@
     border-radius: 10px;
     flex-direction: column;
     align-items: center;
+    height: 60%;
 }
 
-.sidebarItem{
+.sidebarSettingItem{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.sidebarTitle{
+.sidebarSettingTitle{
     margin: 5px 10px 5px 10px;
     padding: 5px;
     width: 87%;
@@ -30,77 +31,33 @@
     text-align: center;
 }
 
-.sidebarSearchItem{
-    width: 90%;
-    display: flex;
-    align-self: flex-start;
-    /* justify-content: center; */
-}
-
-
-.searchInput{  
-    align-self: flex-start;
-    padding-left: 10px; 
-    width: 100%;
-    height: 30px;
-    border: none;
-    font-size: 14px;
-}
-
-.searchButton{  
-    background-color: #585D69;
-    align-self: flex-end;
-    margin-left: 5px;
-    padding: 0%;
-    width: 60%;
-    height: 31px;
-    border: none;
-    text-align: center;
-    font-size: 16px;
-    color: white;
-    cursor: pointer;
-}
-.searchButton:active{
-    background-color: gray
-}
-
-
-.searchButton > i{
-    margin: 0%;
-    padding: 0 5px 0 0;
-    color: white;
-}
-.sidebarSearchItem{
-    margin: 15px;
-}
-
-.sidebarItem > img{
-    width: 290px;
-    height: 290px;
+.sidebarSettingItem > img{
+    width: 400px;
+    height: 400px;
     border-radius: 20px;
     object-fit: cover;
     margin: 10px 0px 10px 0px;
 }
 
-.sidebarItem > p{
-    max-width: 290px;
+.sidebarSettingItem > p{
+    max-width: 380px;
     word-wrap: break-word;
     padding: 10px 20px 10px 20px;
 }
 
-.sidebarList{
+.sidebarSettingList{
     list-style: none;
     margin-bottom: 30px;
 }
 
-.sidebarListItem{
+.sidebarSettingListItem{
     display: inline-block;
     width: 50%;
     margin-top: 15px;
     cursor: pointer;
 }
 
-.sidebarSocial{
+.sidebarSettingSocial{
     margin: 15px 0px 0px 0px;
     width: 250px;
     display: flex;
@@ -108,8 +65,8 @@
     justify-content: flex-start;
 }
 
-.sidebarIcon{
+.sidebarSettingIcon{
     font-size: 36px;
-    margin-right: 15%;
+    margin-right: 22%;
     cursor: pointer;
 }

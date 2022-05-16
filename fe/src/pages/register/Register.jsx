@@ -16,17 +16,16 @@ export default function Register(){
         try{
             const data = {
                 "account": {
-                    "username": username,
-                    "password": password
+                    username,
+                    password
                 },
-                "email": email, 
+                email, 
                 "phone": "",
                 "fullname": "", 
                 "image": "", 
-                "role": ""
+                "role": "member",
+                "description": ""
             };
-
-            console.log(data);
 
             const res = await axiosInstance.post("/auth/register", data)
             res.data && window.location.replace("/login")

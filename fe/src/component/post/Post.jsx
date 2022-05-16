@@ -3,7 +3,6 @@ import "./post.css"
 import {Link} from "react-router-dom"
 
 export default function Post({post}){
-    console.log(post)
     return ( 
         <div className="post">
             {post.image && (
