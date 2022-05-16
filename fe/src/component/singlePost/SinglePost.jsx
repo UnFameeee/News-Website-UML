@@ -48,7 +48,7 @@ export default function SinglePost(){
             console.log(err)
         }
     }
-
+    
     return ( 
         <div className='singlePost'>
             <div className="singlePostWrapper">
@@ -60,16 +60,17 @@ export default function SinglePost(){
                     />
             )}
             
-            {updateMode ? ( <input type="text" value={title} className="singlePostTitleInput" autoFocus onChange={(e)=>setTitle(e.target.value)}/>
+            {updateMode ? ( 
+            <input type="text" value={title} className="singlePostTitleInput" autoFocus onChange={(e)=>setTitle(e.target.value)}/>
             ) : (
                 <h1 className="singlePostTitle"> 
-                    {post.title}
-                    {author === user.account.username && (
-                        <div className="singlePostEdit">
-                            <i className="singlePostIcon fa-solid fa-pen-to-square" onClick={()=>setUpdateMode(true)}></i>
-                            <i className="singlePostIcon fa-solid fa-trash-can" onClick={handleDelete}></i>
-                        </div>
-                    )}
+                    {post.title}  
+                    {user ? ((author === user.account.username) && (
+                    <div className="singlePostEdit">
+                        <i className="singlePostIcon fa-solid fa-pen-to-square" onClick={()=>setUpdateMode(true)}></i>
+                        <i className="singlePostIcon fa-solid fa-trash-can" onClick={handleDelete}></i>
+                    </div>
+                    )) : ""}
                 </h1>
             )}
                 <div className="singlePostInfo">

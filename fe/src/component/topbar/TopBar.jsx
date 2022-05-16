@@ -1,4 +1,5 @@
-import { useContext } from "react";
+import { list } from "firebase/storage";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 import "./topbar.css"
@@ -8,6 +9,14 @@ export default function TopBar(){
     const handleLogout = () => {
         dispatch({type: "LOGOUT"});
         console.log(user)
+    }
+
+    const [stateDrop, setStateDrop] = useState(false);
+    const showDropdown = () => {
+        setStateDrop(true)
+    }
+    const hideDropdown = () => {
+        setStateDrop(false)
     }
 
     return ( 
@@ -32,19 +41,53 @@ export default function TopBar(){
                     <li className="topListItem">
                         <Link className="link" to="/write">WRITE</Link>
                     </li>
-                    <li className="topListItem" onClick={handleLogout}>
+                    {/* <li className="topListItem" >
                         {user && "LOGOUT"}
-                    </li>
+                    </li> */}
                 </ul>
             </div>
             <div className="topRight">
                 {user ? (
-                    <Link to="/setting">
-                        <img 
-                            className="topImg"
-                            src={user.image ? user.image : "https://firebasestorage.googleapis.com/v0/b/uml-final.appspot.com/o/static_img%2Favatar-placeholder.png?alt=media&token=cce1eeaa-6b3a-407b-92ec-ff505016f167"}
-                            alt="" />
-                    </Link>
+                        <div className="dropdown-menu" onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
+                            <div className="topLeft">
+                            <img 
+                                className="topImg"
+                                src={user.image ? user.image : "https://firebasestorage.googleapis.com/v0/b/uml-final.appspot.com/o/static_img%2Favatar-placeholder.png?alt=media&token=cce1eeaa-6b3a-407b-92ec-ff505016f167"}
+                                alt=""/> 
+
+                                <text className="topUsernameText">{user ? user.account.username : ""}</text> 
+                            </div>
+                            <div>
+                            {
+                                stateDrop ? 
+                                (<div className="dropdown-list">
+                                    <Link className="dropdown-list-ele" to="/setting">
+                                        <div onClick={hideDropdown}>Tài khoản của tôi</div>
+                                    </Link>
+                                    {
+                                        user.role === "member" && 
+                                        <Link className="dropdown-list-ele" to="/">
+                                        <div onClick={hideDropdown}>Tin đã lưu</div>
+                                        </Link>
+                                    }
+                                    {
+                                        user.role === "creator" && 
+                                        <Link className="dropdown-list-ele" to="/">
+                                        <div onClick={hideDropdown}>Tin đã viết</div>
+                                        </Link>
+                                    }
+                                    {
+                                        user.role === "censor" && 
+                                        <Link className="dropdown-list-ele" to="/">
+                                        <div onClick={hideDropdown}>Tin đã duyệt</div>
+                                        </Link>
+                                    }
+                                    <div className="dropdown-list-ele" onClick={() =>{handleLogout(); hideDropdown()}}>Đăng xuất</div>
+                                </div> ) : null
+                            }
+                            </div>
+                        
+                    </div>
                 ):( 
                     <ul className="topList">
                         <li className="topListItem">
@@ -52,8 +95,6 @@ export default function TopBar(){
                         </li>
                     </ul>
                 )}
-
-                <text className="topUsernameText">{user ? user.account.username : ""}</text>
             </div>
         </div>
     )

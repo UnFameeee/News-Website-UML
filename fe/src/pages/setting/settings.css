@@ -61,7 +61,7 @@
 
 .settingsForm > label{
     font-size: 17px;
-    margin-top: 20px;
+    margin-top: 15px;
     color: #51B3F5;
 }
 
@@ -74,14 +74,29 @@
 }
 
 .settingsForm > input{
+    font-size: 16px;
     color: gray;
-    margin: 10px 0;
     height: 30px;
     border: none;
     border-bottom: 1px solid lightgray ;
 }
 
 .settingsForm > input:focus{
+    outline: none;
+}
+
+.settingsForm > textarea{
+    font-size: 16px;
+    color: gray;
+    margin: 10px 0;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid lightgray;
+    overflow: hidden;
+    resize: none;
+}
+
+.settingsForm > textarea:focus{
     outline: none;
 }
 
@@ -99,5 +114,5 @@
 }
 
 .sidebar{
-    height: 80%;
+    height: 60%;
 }

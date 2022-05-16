@@ -6,8 +6,11 @@ import Sidebar from "../../component/sidebar/Sidebar.jsx"
 import "./home.css"
 import { useLocation } from "react-router-dom"
 import axiosInstance from "../../helper/axios.js"
+import { Context } from "../../context/Context.js"
+import { useContext, useState } from "react"
 
 export default function Home(){
+    const {user} = useContext(Context)
     const [posts, setPosts] = useState([]);
     const {search} = useLocation();
 
@@ -19,15 +22,54 @@ export default function Home(){
         fetchPosts()
     }, [search])
 
-    return ( 
-        <>
-            <Header/>
-            <div className="home">
-
-                <Posts posts = {posts} />
-                <Sidebar/>
-                
-            </div>
-        </>
-    )
+    if(user.role === "member"){
+        return ( 
+            <>
+                <Header/>
+                <div className="home">
+    
+                    <Posts posts = {posts} />
+                    <Sidebar/>
+                    
+                </div>
+            </>
+        )
+    }else if(user.role === "creator"){
+        return ( 
+            <>
+                <Header/>
+                <div className="home">
+    
+                    <Posts posts = {posts} />
+                    <Sidebar/>
+                    
+                </div>
+            </>
+        )
+    }else if(user.role === "censor"){
+        return ( 
+            <>
+                <Header/>
+                <div className="home">
+    
+                    <Posts posts = {posts} />
+                    <Sidebar/>
+                    
+                </div>
+            </>
+        )
+    }else if(user.role === "admin"){
+        return ( 
+            <>
+                <Header/>
+                <div className="home">
+    
+                    <Posts posts = {posts} />
+                    <Sidebar/>
+                    
+                </div>
+            </>
+        )
+    }
+    
 }
