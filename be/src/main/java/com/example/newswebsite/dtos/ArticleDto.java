@@ -18,6 +18,7 @@ public class ArticleDto {
     private String title;
     private String content;
     private String status;
-    private String categoryName;
+    private String categoryId;
     private String publishedDate;
+    private String censorId;
 }

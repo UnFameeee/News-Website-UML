@@ -48,5 +48,53 @@ public class ArticleController {
     public ResponseEntity<Article> creatingArticle(@Valid @RequestBody ArticleDto articleDto) throws DuplicatedValueException{
         return new ResponseEntity<>(articleService.creatingArticle(articleDto), HttpStatus.OK);
     }
+    /***
+     * @author: idtruoc
+     * @return: The article has updated status "checked"
+     * @throws NonexistentValueException : Return Exception if the request article doesn't exist
+     */
+    @PutMapping("/checked/")
+    public ResponseEntity<Article> changeStatusChecked(@Valid @RequestBody ArticleDto articleDto) throws NonexistentValueException{
+        return new ResponseEntity<>(articleService.changeStatusArticleChecked(articleDto), HttpStatus.OK);
+    }
+    /***
+     * @author: idtruoc
+     * @return: The article has updated status "not checked"
+     * @throws NonexistentValueException : Return Exception if the request article doesn't exist
+     */
 
+    @PutMapping("/notchecked/")
+    public ResponseEntity<Article> changeStatusNotChecked(@Valid @RequestBody  ArticleDto articleDto) throws NonexistentValueException{
+        return new ResponseEntity<>(articleService.changeStatusArticleNotChecked(articleDto), HttpStatus.OK);
+    }
+    /***
+     * @author: idtruoc
+     * @return: get all article with status : "waiting"
+     * @throws  Exception : Return Exception if something wrong
+     */
+    @GetMapping("/waiting/")
+    public ResponseEntity<List<Article>> getAllArticleWaiting() throws Exception{
+       return new ResponseEntity<>(articleService.getArticlesWaiting(), HttpStatus.OK);
+
+    }
+    /***
+     * @author: idtruoc
+     * @return: Get All article checked by admin
+     * @throws  Exception : Return Exception if something wrong
+     */
+    @GetMapping("/checked/")
+    public ResponseEntity<List<Article>> getAllArticleChecked(@Valid @RequestBody  ArticleDto articleDto) throws Exception{
+        return new ResponseEntity<>(articleService.getArticlesCheked(articleDto), HttpStatus.OK);
+
+    }
+    /***
+     * @author: idtruoc
+     * @return: Search artircle with title
+     * @throws  Exception : Return Exception if something wrong
+     */
+    @GetMapping("/search/{title}")
+    public ResponseEntity<List<Article>> searchArticlleByTitle(@Valid @PathVariable String title) throws Exception{
+        return new ResponseEntity<>(articleService.searchArticlesByTitle(title), HttpStatus.OK);
+
+    }
 }
