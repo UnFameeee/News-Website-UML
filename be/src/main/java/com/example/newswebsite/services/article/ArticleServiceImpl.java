@@ -6,11 +6,14 @@ import com.example.newswebsite.exceptions.DuplicatedValueException;
 import com.example.newswebsite.exceptions.NonexistentValueException;
 import com.example.newswebsite.repositories.ArticleRepository;
 import com.example.newswebsite.utils.ModelMapperSingleton;
+import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 @Service
 public class ArticleServiceImpl implements ArticleService{
     private final ArticleRepository articleRepository;
@@ -43,7 +46,68 @@ public class ArticleServiceImpl implements ArticleService{
         if(articleRepository.findArticleByTitle(article.getTitle()).isPresent()){
             throw new DuplicatedValueException("This title has been used before !!!");
         }
+        Format dateFormat = new SimpleDateFormat("EEE, dd/MM/yyyy");
+        String res = dateFormat.format(new Date());
+        article.setPublishedDate(res);
         articleRepository.save(article);
         return article;
+    }
+
+    @Override
+    public Article changeStatusArticleChecked(ArticleDto articleDto) throws NonexistentValueException {
+        Optional<Article> article = articleRepository.findArticleById(articleDto.getId());
+        if(article.isEmpty()){
+            throw new NonexistentValueException("Article doesn't exist !!!");
+        }
+        else {
+            article.get().setStatus("checked");
+            article.get().setCensorId(articleDto.getCensorId());
+            articleRepository.save(article.get());
+        }
+        return article.get();
+    }
+
+    @Override
+    public Article changeStatusArticleNotChecked(ArticleDto articleDto) throws NonexistentValueException {
+        Optional<Article> article = articleRepository.findArticleById(articleDto.getId());
+        if(article.isEmpty()){
+            throw new NonexistentValueException("Article doesn't exist !!!");
+        }
+        else {
+            article.get().setStatus("Not checked");
+            article.get().setCensorId(articleDto.getCensorId());
+            articleRepository.save(article.get());
+
+        }
+        return article.get();
+    }
+
+    @Override
+    public List<Article> getArticlesWaiting() throws Exception {
+
+        try{
+            return articleRepository.findArticlesByStatus("");
+        }catch(Exception ex){
+            throw new Exception("System error, detail: " + ex);
+        }
+    }
+    // lấy những bài viết admin đã duyệt của chính admin đó
+    @Override
+    public List<Article> getArticlesCheked(ArticleDto articleDto) throws Exception {
+
+        try{
+            return articleRepository.findArticlesByStatusAndCensorId("checked",articleDto.getCensorId());
+        }catch(Exception ex){
+            throw new Exception("System error, detail: " + ex);
+        }
+    }
+
+    @Override
+    public List<Article> searchArticlesByTitle(String title) throws Exception {
+        try{
+            return articleRepository.searchArticleByTitle(title);
+        }catch(Exception ex){
+            throw new Exception("System error, detail: " + ex);
+        }
     }
 }

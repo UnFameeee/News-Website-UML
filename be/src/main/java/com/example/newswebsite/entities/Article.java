@@ -26,7 +26,11 @@ public class Article {
 
     private String status;
 
-    private String categoryName;
+    private String categoryId;
 
     private String publishedDate;
+
+    private String updateDate;
+
+    private String censorId;
 }
