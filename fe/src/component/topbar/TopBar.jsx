@@ -52,7 +52,7 @@ export default function TopBar(){
                             <div className="topLeft">
                             <img 
                                 className="topImg"
-                                src={user.image ? user.image : "https://firebasestorage.googleapis.com/v0/b/uml-final.appspot.com/o/static_img%2Favatar-placeholder.png?alt=media&token=cce1eeaa-6b3a-407b-92ec-ff505016f167"}
+                                src={user.image ? user.image : "https://lh3.googleusercontent.com/d/1NCdOtipy2LSXUiNbk6Eop5sdx2WZwqvR=s512?authuser=0"}
                                 alt=""/> 
 
                                 <text className="topUsernameText">{user ? user.account.username : ""}</text> 
@@ -80,6 +80,18 @@ export default function TopBar(){
                                         user.role === "censor" && 
                                         <Link className="dropdown-list-ele" to="/">
                                         <div onClick={hideDropdown}>Tin đã duyệt</div>
+                                        </Link>
+                                    }
+                                    {
+                                        user.role === "admin" && 
+                                        <Link className="dropdown-list-ele" to="/">
+                                        <div onClick={hideDropdown}>Quản lý tài khoản</div>
+                                        </Link>
+                                    }
+                                    {
+                                        user.role === "admin" && 
+                                        <Link className="dropdown-list-ele" to="/">
+                                        <div onClick={hideDropdown}>Quản lý bài viết</div>
                                         </Link>
                                     }
                                     <div className="dropdown-list-ele" onClick={() =>{handleLogout(); hideDropdown()}}>Đăng xuất</div>
