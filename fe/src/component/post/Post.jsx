@@ -10,7 +10,7 @@ export default function Post({post}){
                  src={post.image}
                  alt="" />
             )}
-            
+            {/* {console.log({post})} */}
             <div className="postInfo">
                 <Link to={`/articles/${post.id}`} className="link"> 
                     <div className="postTitle">{post.title}</div>
@@ -22,10 +22,10 @@ export default function Post({post}){
                             <span className="postCat">{c.name}</span>
                         )} */}
                     </div>
-                    <div className="postDate">{new Date(post.createdAt).toDateString()}</div>
+                    <div className="postDate">{post.publishedDate}</div>
                 </div>
+                <p className="postDesc">{post.content}</p>
             </div>
-            <p className="postDesc">{post.content}</p>
         </div>
     )
 }
