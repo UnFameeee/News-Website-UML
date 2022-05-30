@@ -26,21 +26,19 @@ export default function Write(){
             image: imageURL,
             title,
             content,
-            status: "Chưa duyệt",
+            status: "Chờ duyệt",
             categoryId: catSelected,
             publishedDate: "",
             updatedDate: "",
             censorId: ""   
         };
 
-        console.log(newPost)
-        console.log(catSelected)
-        // try{
-        //     const res = await axiosInstance.post("/articles", newPost);
-        //     window.location.replace("/articles/" + res.data.id);
-        // }catch(err){
+        try{
+            const res = await axiosInstance.post("/articles", newPost);
+            window.location.replace("/articles/" + res.data.id);
+        }catch(err){
 
-        // }
+        }
     }
 
     useEffect(()=>{

@@ -12,10 +12,21 @@ export default function Home(){
     const {user} = useContext(Context)
     const [posts, setPosts] = useState([]);
     const {search} = useLocation();
+    // const [unCheckedPosts, setunCheckedPosts] = useState([]);
 
     useEffect(() => {
         const fetchPosts = async () => {
-            const res = await axiosInstance.get("/articles/" + search)
+            
+            let path = "/articles/";
+            if(user){
+                if(user.role === "censor"){
+                    path = "/articles/waiting/";
+                }
+                else if(user.role === "creator"){
+                    path = "/articles/";
+                }
+            }
+            const res = await axiosInstance.get(path + search)
             setPosts(res.data)
         }
         fetchPosts()
@@ -27,7 +38,6 @@ export default function Home(){
                 <>
                     <Header/>
                     <div className="home">
-                        
                         <PostsAdmin posts = {posts} />
                         <Sidebar/>
                     </div>
