@@ -19,4 +19,5 @@ public class UserDto {
     private String image;
     private String description;
     private String role;
+    private Boolean isActive;
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/category")
@@ -19,20 +20,18 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-
-
     /***
-     * @author: idtruoc
-     * @return: All category in the database
+     * @author: idtruoc, Unfame
+     * @return: All category in the database (but isActive = true)
      * @throws Exception : Return Exception if something wrong
      */
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<Category>> getAllCategory() throws Exception{
         return new ResponseEntity<>(categoryService.getAllCategory(), HttpStatus.OK);
     }
 
     /***
-     * @author: idtruoc
+     * @author: idtruoc, Unfame
      * @return: Category required
      * @throws NonexistentValueException : Return Exception if the request Category doesn't exist
      */
@@ -42,12 +41,22 @@ public class CategoryController {
     }
 
     /***
-     * @author: idtruoc
+     * @author: idtruoc, Unfame
      * @return: The category has just been created
      * @throws DuplicatedValueException : Return Exception if the title of the category is duplicated
      */
     @PostMapping("")
-    public ResponseEntity<Category> creatingCategory(@Valid @RequestBody CategoryDto categoryDto) throws DuplicatedValueException{
-        return new ResponseEntity<>(categoryService.creatingCategory(categoryDto), HttpStatus.OK);
+    public ResponseEntity<Category> createCategory(@Valid @RequestBody CategoryDto categoryDto) throws DuplicatedValueException{
+        return new ResponseEntity<>(categoryService.createCategory(categoryDto), HttpStatus.OK);
+    }
+
+    /***
+     * @author: Unfame
+     * @return: Upadte category has just been created
+     * @throws DuplicatedValueException : Return Exception if the title of the category is duplicated
+     */
+    @PutMapping("")
+    public ResponseEntity<Category> updateCategory(@Valid @RequestBody Map<String, String> data) throws DuplicatedValueException{
+        return new ResponseEntity<>(categoryService.updateCategory(data), HttpStatus.OK);
     }
 }

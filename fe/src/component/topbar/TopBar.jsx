@@ -1,17 +1,28 @@
-import { list } from "firebase/storage";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
+import axiosInstance from "../../helper/axios";
 import "./topbar.css"
 
 export default function TopBar(){
     const {user, dispatch} = useContext(Context);
+    const [cats, setCats] = useState([]);
+
     const handleLogout = () => {
         dispatch({type: "LOGOUT"});
         console.log(user)
     }
 
+    useEffect(()=>{
+        const getCats = async ()=>{
+            const res = await axiosInstance.get("/category/");
+            setCats(res.data);
+        }
+        getCats();
+    }, [])
+
     const [stateDrop, setStateDrop] = useState(false);
+
     const showDropdown = () => {
         setStateDrop(true)
     }
@@ -19,31 +30,33 @@ export default function TopBar(){
         setStateDrop(false)
     }
 
+    
+
     return ( 
         <div className='top'>
             <div className="topLeft">
                 {/* <i className="topIcon fa-brands fa-facebook-square"></i>
                 <i className="topIcon fa-brands fa-twitter-square"></i>
                 <i className="topIcon fa-brands fa-google-plus-square"></i> */}
-                <Link className="link" to="/posts"><i className="topIcon fa-solid fa-house-chimney"></i></Link>
+                <Link className="link" to="/"><i className="topIcon fa-solid fa-house-chimney"></i></Link>
             </div>
             <div className="topCenter">
                 <ul className="topList">
+                    {cats.map((c) => (
+                        // <Link to={`/search/articles/?cate=${c.categoryName}`} className="link">
+                        <Link to={`/api/articles/?cate=${c.categoryName}`} className="link">
+                            <li className="topListItem">{c.categoryName}</li>
+                        </Link>
+                    ))}
                     {/* <li className="topListItem">
-                        <Link className="link" to="/posts">HOME</Link>
-                    </li> */}
-                    <li className="topListItem">
                         <Link className="link" to="/">ABOUT</Link> 
                     </li>
                     <li className="topListItem">
                         <Link className="link" to="/">CONTACT</Link>
-                    </li>
+                    </li> */}
                     <li className="topListItem">
                         <Link className="link" to="/write">WRITE</Link>
                     </li>
-                    {/* <li className="topListItem" >
-                        {user && "LOGOUT"}
-                    </li> */}
                 </ul>
             </div>
             <div className="topRight">
@@ -67,21 +80,28 @@ export default function TopBar(){
                                     {
                                         user.role === "member" && 
                                         <Link className="dropdown-list-ele" to="/">
-                                        <div onClick={hideDropdown}>Tin đã lưu</div>
+                                        <div onClick={hideDropdown}>Bài viết đã lưu</div>
                                         </Link>
                                     }
                                     {
                                         user.role === "creator" && 
                                         <Link className="dropdown-list-ele" to="/">
-                                        <div onClick={hideDropdown}>Tin đã viết</div>
+                                        <div onClick={hideDropdown}>Bài viết đã viết</div>
                                         </Link>
                                     }
                                     {
                                         user.role === "censor" && 
                                         <Link className="dropdown-list-ele" to="/">
-                                        <div onClick={hideDropdown}>Tin đã duyệt</div>
+                                        <div onClick={hideDropdown}>Bài viết chờ duyệt</div>
                                         </Link>
                                     }
+                                    {
+                                        user.role === "censor" && 
+                                        <Link className="dropdown-list-ele" to="/">
+                                        <div onClick={hideDropdown}>Bài viết đã duyệt</div>
+                                        </Link>
+                                    }
+                                    
                                     {
                                         user.role === "admin" && 
                                         <Link className="dropdown-list-ele" to="/">

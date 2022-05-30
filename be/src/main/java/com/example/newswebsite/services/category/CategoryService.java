@@ -8,9 +8,11 @@ import com.example.newswebsite.exceptions.DuplicatedValueException;
 import com.example.newswebsite.exceptions.NonexistentValueException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CategoryService {
     List<Category> getAllCategory() throws Exception;
     Category getOneCategory(String Id) throws NonexistentValueException;
-    Category creatingCategory(CategoryDto categoryDto) throws DuplicatedValueException;
+    Category createCategory(CategoryDto categoryDto) throws DuplicatedValueException;
+    Category updateCategory(Map<String, String> data) throws DuplicatedValueException;
 }

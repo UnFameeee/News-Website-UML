@@ -1,5 +1,5 @@
 import "./write.css";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Context } from "../../context/Context";
 import axiosInstance from "../../helper/axios.js";
 import uploadFiles from "../../helper/firebaseUploadImage";
@@ -9,6 +9,9 @@ export default function Write(){
     const [content, setContent] = useState("")
     const [file, setFile] = useState(null)
     const {user} = useContext(Context);
+    const [cats, setCats] = useState([]);
+    const [catSelected, setCatSelected] = useState("")
+
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
@@ -23,17 +26,31 @@ export default function Write(){
             image: imageURL,
             title,
             content,
-            status: "",
-            categoryName: "Chưa kiểm duyệt",
-            publishedDate: ""
+            status: "Chưa duyệt",
+            categoryId: catSelected,
+            publishedDate: "",
+            updatedDate: "",
+            censorId: ""   
         };
-        try{
-            const res = await axiosInstance.post("/articles", newPost);
-            window.location.replace("/articles/" + res.data.id);
-        }catch(err){
 
-        }
+        console.log(newPost)
+        console.log(catSelected)
+        // try{
+        //     const res = await axiosInstance.post("/articles", newPost);
+        //     window.location.replace("/articles/" + res.data.id);
+        // }catch(err){
+
+        // }
     }
+
+    useEffect(()=>{
+        const getCats = async ()=>{
+            const res = await axiosInstance.get("/category/");
+            setCats(res.data);
+            setCatSelected(res.data[0].id)
+        }
+        getCats();
+    }, [])
 
     const auto_grow = (e) => {
         e.target.style.height = 'inherit';
@@ -54,11 +71,24 @@ export default function Write(){
                     </label>
                     <input type="file" id="fileInput" style={{display: "none"}} onChange={(e) => setFile(e.target.files[0])}/>
                     <input type="text" placeholder="Title" className="writeInput" autoFocus={true} onChange={e=>setTitle(e.target.value)}/>
+
+                    
                 </div>
                 <div className="writeFormGroup">
                     <textarea placeholder="Tell your story..." type="text" className="writeInput writeText" onInput={auto_grow} onChange={e=>setContent(e.target.value)}></textarea>
+
+
+                    <label for="cate">Choose a category:</label>
+                    <select className="cate" onChange={(e) => setCatSelected(e.target.value)} >
+                        {cats.map((c) => (
+                            <option value={c.id}>{c.categoryName}</option>
+                        ))}
+                    </select>
+
+
                 </div>
                 <button className="writeSubmit" type="submit" onSubmit={handleSubmit}>Submit</button>
+                
             </form>
         </div>
     )

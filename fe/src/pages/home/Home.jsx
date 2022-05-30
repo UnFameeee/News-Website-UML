@@ -27,6 +27,7 @@ export default function Home(){
                 <>
                     <Header/>
                     <div className="home">
+                        
                         <PostsAdmin posts = {posts} />
                         <Sidebar/>
                     </div>
@@ -59,7 +60,7 @@ export default function Home(){
             <Header/>
             <div className="home">
                 <Posts posts = {posts} />
-                <Sidebar/> */
+                <Sidebar/>
             </div>
         </>
     )
