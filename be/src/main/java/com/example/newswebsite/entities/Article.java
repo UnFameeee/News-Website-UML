@@ -22,7 +22,7 @@ public class Article {
 
     private String content;
 
-    //Chưa duyệt, Đã duyệt, Không được duyệt, Không hoạt động
+    //Chờ duyệt, Đã duyệt, Không được duyệt, Không hoạt động
     private String status;
 
     private String categoryId;

@@ -97,7 +97,7 @@ public class ArticleServiceImpl implements ArticleService{
     public List<Article> getArticlesWaiting() throws Exception {
 
         try{
-            return articleRepository.findArticlesByStatus("");
+            return articleRepository.findArticlesByStatus("Chờ duyệt");
         }catch(Exception ex){
             throw new Exception("System error, detail: " + ex);
         }
