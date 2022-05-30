@@ -19,12 +19,15 @@ public interface ArticleRepository extends MongoRepository<Article, String> {
     @Query("{title: '?0'}")
     Optional<Article> findArticleByTitle(String title);
 
+    @Query("{ 'categoryId':  '?0' }")
+    List<Article> findArticlesByCategory(String categoryName);
 
     @Query("{ status:  '?0' }")
     List<Article> findArticlesByStatus(String status);
 
     @Query(" { status:  '?0'  }, { censorId: '?0'} ")
     List<Article> findArticlesByStatusAndCensorId(String status,String censorId);
+
     @Query(" { $text: {$search: '?0'}} ")
     List<Article> searchArticleByTitle(String search);
 }

@@ -29,5 +29,7 @@ public class User {
     private String description;
 
     private String role;
+
+    private Boolean isActive;
 }
 

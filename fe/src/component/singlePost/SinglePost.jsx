@@ -81,7 +81,7 @@ export default function SinglePost(){
                         </Link>
                     </span>
                     <span className="singlePostDate">
-                        {new Date(post.createdAt).toDateString()}
+                        {post.publishedDate}
                     </span>
                 </div>
                 {updateMode ? (

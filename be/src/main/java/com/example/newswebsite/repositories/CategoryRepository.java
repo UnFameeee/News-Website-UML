@@ -15,11 +15,9 @@ public interface CategoryRepository  extends MongoRepository<Category, String> {
     @Query("{}")
     List<Category> findAllCategory();
 
-    @Query("{_id: '?0'}")
-    Optional<Category> findCategoryById(String id);
+    @Query("{'_id': '?0', 'isActive': ?1}")
+    Optional<Category> findCategoryByIdAndIsActive(String id, Boolean isActive);
 
-    @Query("{categoryName: '?0'}")
-    Optional<Category> findCategoryByCategoryName(String categoryName);
-
-
+    @Query("{'categoryName': '?0', 'isActive': ?1}")
+    Optional<Category> findCategoryByCategoryNameAndIsActive(String categoryName, Boolean isActive);
 }

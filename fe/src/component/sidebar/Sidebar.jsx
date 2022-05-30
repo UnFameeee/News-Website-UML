@@ -1,40 +1,59 @@
-import { useContext, useEffect, useRef, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
+import axiosInstance from "../../helper/axios";
 import "./sidebar.css"
 
 export default function Sidebar(){
     const {user, dispatch} = useContext(Context)
-    const cateInputRef = useRef()
-    // const [cats, setCats] = useState([]);
+    const [cats, setCats] = useState([]);
     const [catSelected, setCatSelected] = useState("");
+    const [cateInput, setCateInput] = useState("");
 
-    // useEffect(()=>{
-    //     const getCats = async ()=>{
-    //         const res = await axios.get("/categories");
-    //         setCats(res.data);
-    //     }
-    //     getCats();
-    // }, [])
+    useEffect(()=>{
+        const getCats = async ()=>{
+            const res = await axiosInstance.get("/category/");
+            setCats(res.data);
+            console.log(res.data)
+        }
+        getCats();
+    }, [])
 
     const handleCateClick = (e) => {
         console.log(e.target.innerText);
-
         setCatSelected(e.target.innerText);
-        cateInputRef.value = e.target.innerText;
-
         document.getElementById("categoryInput").value = e.target.innerText;
     }
 
-    const handleCateCreate = (e) => {
-        console.log(catSelected)
+    const handleCateCreate = async (e) => {
+        try{
+            const data = {
+                categoryName: cateInput.toUpperCase(),
+                isActive: true
+            } 
+            const res = await axiosInstance.post("/category", data);
+            console.log(res.data)
+            setTimeout(window.location.reload(), 5000);
+        }catch(err){
+            
+        }   
     }
 
-    const handleCateUpdate = (e) => {
-        console.log(cateInputRef.value)
+    const handleCateUpdate = async (e) => {
+        try{
+            const data = {
+                categoryName: catSelected.toUpperCase(),
+                newCategoryName: cateInput.toUpperCase()
+            }
+            const res = await axiosInstance.put("/category", data);
+            console.log(res.data)
+            setTimeout(window.location.reload(), 5000);
+        }catch(err){
+            
+        }   
     }
     
-    const handleCateDelete = (e) => {
+    const handleCateDelete = async (e) => {
 
     }
 
@@ -57,20 +76,16 @@ export default function Sidebar(){
             </div>
             {user ? user.role === "admin" && (
                 <div className="sidebarCateItem">
-                    {/* <ul className="sidebarList">
-                        {cats.map((c) => (
-                            <Link to={`/?cat=${c.name}`} className="link">
-                                <li className="sidebarListItem">{c.name}</li>
-                            </Link>
-                        ))}
-                    </ul> */}
 
                     <ul className="sidebarList">
-                        <li className="sidebarListItem" value="Genshin" onClick={handleCateClick}>Genshin</li>
-                        <li className="sidebarListItem" value="Lmao" onClick={handleCateClick}>Lmao</li>
-                        <li className="sidebarListItem" value="Cringe" onClick={handleCateClick}>Cringe</li>
+                        {cats.map((c) => (
+                            <Link to={``} className="link" onClick={handleCateClick}>
+                                <li className="sidebarListItem">{c.categoryName}</li>
+                            </Link>
+                        ))}
                     </ul>
-                <input type="text" id="categoryInput" className="categoryInput" placeholder="Category..." ref={cateInputRef} />
+
+                <input type="text" id="categoryInput" className="categoryInput" placeholder="Category..." onChange={(e) => setCateInput(e.target.value)}/>
 
                 <button className="submitCateButton" onClick={handleCateCreate}>Tạo mới</button>
                 <button className="submitCateButton" onClick={handleCateUpdate}>Chỉnh sửa</button>

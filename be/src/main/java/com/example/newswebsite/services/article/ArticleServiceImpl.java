@@ -2,30 +2,42 @@ package com.example.newswebsite.services.article;
 
 import com.example.newswebsite.dtos.ArticleDto;
 import com.example.newswebsite.entities.Article;
+import com.example.newswebsite.entities.Category;
 import com.example.newswebsite.exceptions.DuplicatedValueException;
 import com.example.newswebsite.exceptions.NonexistentValueException;
 import com.example.newswebsite.repositories.ArticleRepository;
+import com.example.newswebsite.repositories.CategoryRepository;
+import com.example.newswebsite.utils.GetDateFormatedSingleton;
 import com.example.newswebsite.utils.ModelMapperSingleton;
-import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 @Service
 public class ArticleServiceImpl implements ArticleService{
     private final ArticleRepository articleRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ArticleServiceImpl(ArticleRepository articleRepository){
+    public ArticleServiceImpl(ArticleRepository articleRepository, CategoryRepository categoryRepository){
         this.articleRepository = articleRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
     public List<Article> getAllArticle() throws Exception {
         try{
             return articleRepository.findAllArticle();
+        }catch(Exception ex){
+            throw new Exception("System error, detail: " + ex);
+        }
+    }
+
+    @Override
+    public List<Article> getAllArticleByCateId(String cate) throws Exception {
+        try{
+            Optional<Category> category = categoryRepository.findCategoryByCategoryNameAndIsActive(cate, true);
+            return articleRepository.findArticlesByCategory(category.get().getId());
         }catch(Exception ex){
             throw new Exception("System error, detail: " + ex);
         }
@@ -41,14 +53,13 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    public Article creatingArticle(ArticleDto articleDto) throws DuplicatedValueException {
+    public Article createArticle(ArticleDto articleDto) throws DuplicatedValueException {
         Article article = ModelMapperSingleton.getInstance().modelMapper().map(articleDto, Article.class);
         if(articleRepository.findArticleByTitle(article.getTitle()).isPresent()){
             throw new DuplicatedValueException("This title has been used before !!!");
         }
-        Format dateFormat = new SimpleDateFormat("EEE, dd/MM/yyyy");
-        String res = dateFormat.format(new Date());
-        article.setPublishedDate(res);
+        article.setPublishedDate(GetDateFormatedSingleton.getInstance().getDate("EEE, dd/MM/yyyy"));
+        article.setUpdatedDate(GetDateFormatedSingleton.getInstance().getDate("EEE, dd/MM/yyyy"));
         articleRepository.save(article);
         return article;
     }
@@ -60,8 +71,8 @@ public class ArticleServiceImpl implements ArticleService{
             throw new NonexistentValueException("Article doesn't exist !!!");
         }
         else {
-            article.get().setStatus("checked");
-            article.get().setCensorId(articleDto.getCensorId());
+            article.get().setStatus("Đã duyệt");
+//            article.get().setCensorId(articleDto.getCensorId());
             articleRepository.save(article.get());
         }
         return article.get();
@@ -93,7 +104,7 @@ public class ArticleServiceImpl implements ArticleService{
     }
     // lấy những bài viết admin đã duyệt của chính admin đó
     @Override
-    public List<Article> getArticlesCheked(ArticleDto articleDto) throws Exception {
+    public List<Article> getArticlesChecked(ArticleDto articleDto) throws Exception {
 
         try{
             return articleRepository.findArticlesByStatusAndCensorId("checked",articleDto.getCensorId());
@@ -106,6 +117,15 @@ public class ArticleServiceImpl implements ArticleService{
     public List<Article> searchArticlesByTitle(String title) throws Exception {
         try{
             return articleRepository.searchArticleByTitle(title);
+        }catch(Exception ex){
+            throw new Exception("System error, detail: " + ex);
+        }
+    }
+
+    @Override
+    public List<Article> getArticlesByCategory(String categoryName) throws Exception {
+        try{
+            return articleRepository.findArticlesByCategory(categoryName);
         }catch(Exception ex){
             throw new Exception("System error, detail: " + ex);
         }

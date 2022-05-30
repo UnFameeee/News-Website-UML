@@ -25,9 +25,17 @@ public class ArticleController {
      * @throws Exception : Return Exception if something wrong
      */
     @GetMapping("/")
-    public ResponseEntity<List<Article>> getAllArticle() throws Exception{
-        return new ResponseEntity<>(articleService.getAllArticle(), HttpStatus.OK);
+    public ResponseEntity<List<Article>> getAllArticle(@RequestParam(value = "cate", required = false) String cate) throws Exception{
+        if(cate == null)
+            return new ResponseEntity<>(articleService.getAllArticle(), HttpStatus.OK);
+        else
+            return new ResponseEntity<>(articleService.getAllArticleByCateId(cate), HttpStatus.OK);
     }
+
+//    @GetMapping("?{cate}")
+//    public ResponseEntity<List<Article>> getAllArticleByCateId(@RequestParam String cate, @PathVariable String cate) throws Exception{
+//        return new ResponseEntity<>(articleService.getAllArticle(), HttpStatus.OK);
+//    }
 
     /***
      * @author: Unfame
@@ -45,9 +53,10 @@ public class ArticleController {
      * @throws DuplicatedValueException : Return Exception if the title of the article is duplicated
      */
     @PostMapping("")
-    public ResponseEntity<Article> creatingArticle(@Valid @RequestBody ArticleDto articleDto) throws DuplicatedValueException{
-        return new ResponseEntity<>(articleService.creatingArticle(articleDto), HttpStatus.OK);
+    public ResponseEntity<Article> createArticle(@Valid @RequestBody ArticleDto articleDto) throws DuplicatedValueException{
+        return new ResponseEntity<>(articleService.createArticle(articleDto), HttpStatus.OK);
     }
+
     /***
      * @author: idtruoc
      * @return: The article has updated status "checked"
@@ -57,16 +66,17 @@ public class ArticleController {
     public ResponseEntity<Article> changeStatusChecked(@Valid @RequestBody ArticleDto articleDto) throws NonexistentValueException{
         return new ResponseEntity<>(articleService.changeStatusArticleChecked(articleDto), HttpStatus.OK);
     }
+
     /***
      * @author: idtruoc
      * @return: The article has updated status "not checked"
      * @throws NonexistentValueException : Return Exception if the request article doesn't exist
      */
-
     @PutMapping("/notchecked/")
     public ResponseEntity<Article> changeStatusNotChecked(@Valid @RequestBody  ArticleDto articleDto) throws NonexistentValueException{
         return new ResponseEntity<>(articleService.changeStatusArticleNotChecked(articleDto), HttpStatus.OK);
     }
+
     /***
      * @author: idtruoc
      * @return: get all article with status : "waiting"
@@ -77,6 +87,7 @@ public class ArticleController {
        return new ResponseEntity<>(articleService.getArticlesWaiting(), HttpStatus.OK);
 
     }
+
     /***
      * @author: idtruoc
      * @return: Get All article checked by admin
@@ -84,7 +95,7 @@ public class ArticleController {
      */
     @GetMapping("/checked/")
     public ResponseEntity<List<Article>> getAllArticleChecked(@Valid @RequestBody  ArticleDto articleDto) throws Exception{
-        return new ResponseEntity<>(articleService.getArticlesCheked(articleDto), HttpStatus.OK);
+        return new ResponseEntity<>(articleService.getArticlesChecked(articleDto), HttpStatus.OK);
 
     }
     /***
@@ -93,8 +104,17 @@ public class ArticleController {
      * @throws  Exception : Return Exception if something wrong
      */
     @GetMapping("/search/{title}")
-    public ResponseEntity<List<Article>> searchArticlleByTitle(@Valid @PathVariable String title) throws Exception{
+    public ResponseEntity<List<Article>> searchArticleByTitle(@Valid @PathVariable String title) throws Exception{
         return new ResponseEntity<>(articleService.searchArticlesByTitle(title), HttpStatus.OK);
-
     }
+
+    /***
+     * @author: Unfame
+     * @return: Search artircle with category
+     * @throws  Exception : Return Exception if something wrong
+     */
+//    @GetMapping("/search/{categoryName}")
+//    public ResponseEntity<List<Article>> findArticleByCategory(@Valid @PathVariable String categoryName) throws Exception{
+//        return new ResponseEntity<>(articleService.getArticlesByCategory(categoryName), HttpStatus.OK);
+//    }
 }

@@ -12,4 +12,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class CategoryDto {
     private String id;
     private String categoryName;
+    private Boolean isActive;
 }

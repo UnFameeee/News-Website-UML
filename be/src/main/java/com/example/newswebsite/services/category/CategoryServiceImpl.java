@@ -14,10 +14,11 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 @Service
 class CategoryServiceImpl implements  CategoryService{
-    private final  CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
     public CategoryServiceImpl(CategoryRepository categoryRepository){
         this.categoryRepository = categoryRepository;
     }
@@ -33,7 +34,7 @@ class CategoryServiceImpl implements  CategoryService{
 
     @Override
     public Category getOneCategory(String Id) throws NonexistentValueException {
-        Optional<Category> category = categoryRepository.findCategoryById(Id);
+        Optional<Category> category = categoryRepository.findCategoryByIdAndIsActive(Id, true);
         if(category.isEmpty()){
             throw new NonexistentValueException("Category doesn't exist !!!");
         }
@@ -41,13 +42,24 @@ class CategoryServiceImpl implements  CategoryService{
     }
 
     @Override
-    public Category creatingCategory(CategoryDto categoryDto) throws DuplicatedValueException {
+    public Category createCategory(CategoryDto categoryDto) throws DuplicatedValueException {
         Category category = ModelMapperSingleton.getInstance().modelMapper().map(categoryDto, Category.class);
-        if(categoryRepository.findCategoryByCategoryName(category.getCategoryName()).isPresent()){
+        Optional<Category> cate = categoryRepository.findCategoryByCategoryNameAndIsActive(category.getCategoryName(), true);
+        if(cate.isPresent()){
             throw new DuplicatedValueException("This category has been used before !!!");
         }
-
         categoryRepository.save(category);
         return category;
+    }
+
+    @Override
+    public Category updateCategory(Map<String, String> data) throws DuplicatedValueException {
+        Optional<Category> cate = categoryRepository.findCategoryByCategoryNameAndIsActive(data.get("categoryName") , true);
+        if(cate.isEmpty()){
+            throw new DuplicatedValueException("This category has been used before !!!");
+        }
+        cate.get().setCategoryName(data.get("newCategoryName"));
+        categoryRepository.save(cate.get());
+        return cate.get();
     }
 }
