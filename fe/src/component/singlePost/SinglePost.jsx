@@ -28,7 +28,7 @@ export default function SinglePost(){
 
     const handleDelete = async() =>{
         try{
-            await axiosInstance.delete(`/posts/${post._id}`, 
+            await axiosInstance.delete(`/posts/${post.id}`, 
                 {data: {username: author}});
             window.location.replace("/")
         }catch(err){
@@ -40,7 +40,7 @@ export default function SinglePost(){
         e.preventDefault();
         try{
             await axiosInstance.put(
-                `/posts/${post._id}`,
+                `/posts/${post.id}`,
                 {username: user.username, title: title, content: content}
             );
             window.location.reload();
@@ -49,6 +49,34 @@ export default function SinglePost(){
         }
     }
     
+    const handleAccept= async () => {
+        try{
+            const data = {
+                articleId: post.id,
+                censorId: user.id
+            }
+            console.log(data)
+            await axiosInstance.put("/articles/accept/", data);
+            window.location.replace("/")
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    const handleReject = async () => {
+        try{
+            const data = {
+                articleId: post.id,
+                censorId: user.id
+            }
+            console.log(data)
+            await axiosInstance.put("/articles/reject/", data);
+            window.location.replace("/")
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     return ( 
         <div className='singlePost'>
             <div className="singlePostWrapper">
@@ -75,15 +103,21 @@ export default function SinglePost(){
             )}
                 <div className="singlePostInfo">
                     <span className="singlePostAuthor">
-                        Author:
-                        <Link to={`/?user=${author}`} className="link">
+                        Tác giả:
+                        {/* <Link to={`/?user=${author}`} className="link"> */}
                             <b> {author}</b>
-                        </Link>
+                        {/* </Link> */}
                     </span>
                     <span className="singlePostDate">
                         {post.publishedDate}
                     </span>
                 </div>
+                {user ? (user.role === "censor" && (
+                    <div className="singlePostEditButton">
+                        <p className="singlePostButtonIcon"><i className="fa-solid fa-circle-check" onClick={handleAccept}> ACCEPT</i></p>
+                        <p className="singlePostButtonIcon"><i className="fa-solid fa-circle-xmark" onClick={handleReject}> REJECT</i></p>
+                    </div>
+                    )) : ""}
                 {updateMode ? (
                 <textarea className="singlePostContentInput" value={content} onChange={(e)=>setContent(e.target.value)}/>
                 ) : (
