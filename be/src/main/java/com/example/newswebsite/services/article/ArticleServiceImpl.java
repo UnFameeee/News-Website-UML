@@ -12,6 +12,7 @@ import com.example.newswebsite.utils.ModelMapperSingleton;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -65,30 +66,29 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    public Article changeStatusArticleChecked(ArticleDto articleDto) throws NonexistentValueException {
-        Optional<Article> article = articleRepository.findArticleById(articleDto.getId());
+    public Article changeStatusArticleChecked(Map<String, String> data) throws NonexistentValueException {
+        Optional<Article> article = articleRepository.findArticleById(data.get("articleId"));
         if(article.isEmpty()){
             throw new NonexistentValueException("Article doesn't exist !!!");
         }
         else {
             article.get().setStatus("Đã duyệt");
-//            article.get().setCensorId(articleDto.getCensorId());
+            article.get().setCensorId(data.get("censorId"));
             articleRepository.save(article.get());
         }
         return article.get();
     }
 
     @Override
-    public Article changeStatusArticleNotChecked(ArticleDto articleDto) throws NonexistentValueException {
-        Optional<Article> article = articleRepository.findArticleById(articleDto.getId());
+    public Article changeStatusArticleNotChecked(Map<String, String> data) throws NonexistentValueException {
+        Optional<Article> article = articleRepository.findArticleById(data.get("articleId"));
         if(article.isEmpty()){
             throw new NonexistentValueException("Article doesn't exist !!!");
         }
         else {
-            article.get().setStatus("Not checked");
-            article.get().setCensorId(articleDto.getCensorId());
+            article.get().setStatus("Không được duyệt");
+            article.get().setCensorId(data.get("censorId"));
             articleRepository.save(article.get());
-
         }
         return article.get();
     }
@@ -117,15 +117,6 @@ public class ArticleServiceImpl implements ArticleService{
     public List<Article> searchArticlesByTitle(String title) throws Exception {
         try{
             return articleRepository.searchArticleByTitle(title);
-        }catch(Exception ex){
-            throw new Exception("System error, detail: " + ex);
-        }
-    }
-
-    @Override
-    public List<Article> getArticlesByCategory(String categoryName) throws Exception {
-        try{
-            return articleRepository.findArticlesByCategory(categoryName);
         }catch(Exception ex){
             throw new Exception("System error, detail: " + ex);
         }

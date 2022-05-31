@@ -11,6 +11,7 @@ export default function TopBar(){
     const handleLogout = () => {
         dispatch({type: "LOGOUT"});
         console.log(user)
+        window.location.replace("/")
     }
 
     useEffect(()=>{

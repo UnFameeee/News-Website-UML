@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/articles")
@@ -58,23 +59,23 @@ public class ArticleController {
     }
 
     /***
-     * @author: idtruoc
+     * @author: idtruoc, Unfame
      * @return: The article has updated status "checked"
      * @throws NonexistentValueException : Return Exception if the request article doesn't exist
      */
-    @PutMapping("/checked/")
-    public ResponseEntity<Article> changeStatusChecked(@Valid @RequestBody ArticleDto articleDto) throws NonexistentValueException{
-        return new ResponseEntity<>(articleService.changeStatusArticleChecked(articleDto), HttpStatus.OK);
+    @PutMapping("/accept/")
+    public ResponseEntity<Article> changeStatusChecked(@Valid @RequestBody Map<String, String> data) throws NonexistentValueException{
+        return new ResponseEntity<>(articleService.changeStatusArticleChecked(data), HttpStatus.OK);
     }
 
     /***
-     * @author: idtruoc
+     * @author: idtruoc, Unfame
      * @return: The article has updated status "not checked"
      * @throws NonexistentValueException : Return Exception if the request article doesn't exist
      */
-    @PutMapping("/notchecked/")
-    public ResponseEntity<Article> changeStatusNotChecked(@Valid @RequestBody  ArticleDto articleDto) throws NonexistentValueException{
-        return new ResponseEntity<>(articleService.changeStatusArticleNotChecked(articleDto), HttpStatus.OK);
+    @PutMapping("/reject/")
+    public ResponseEntity<Article> changeStatusNotChecked(@Valid @RequestBody Map<String, String> data) throws NonexistentValueException{
+        return new ResponseEntity<>(articleService.changeStatusArticleNotChecked(data), HttpStatus.OK);
     }
 
     /***
@@ -85,7 +86,16 @@ public class ArticleController {
     @GetMapping("/waiting/")
     public ResponseEntity<List<Article>> getAllArticleWaiting() throws Exception{
        return new ResponseEntity<>(articleService.getArticlesWaiting(), HttpStatus.OK);
+    }
 
+    /***
+     * @author: idtruoc
+     * @return: get all article with status : "waiting"
+     * @throws  Exception : Return Exception if something wrong
+     */
+    @GetMapping("/waiting/")
+    public ResponseEntity<List<Article>> getAllArticleWaiting() throws Exception{
+        return new ResponseEntity<>(articleService.getArticlesWaiting(), HttpStatus.OK);
     }
 
     /***
@@ -98,6 +108,7 @@ public class ArticleController {
         return new ResponseEntity<>(articleService.getArticlesChecked(articleDto), HttpStatus.OK);
 
     }
+
     /***
      * @author: idtruoc
      * @return: Search artircle with title
@@ -108,13 +119,4 @@ public class ArticleController {
         return new ResponseEntity<>(articleService.searchArticlesByTitle(title), HttpStatus.OK);
     }
 
-    /***
-     * @author: Unfame
-     * @return: Search artircle with category
-     * @throws  Exception : Return Exception if something wrong
-     */
-//    @GetMapping("/search/{categoryName}")
-//    public ResponseEntity<List<Article>> findArticleByCategory(@Valid @PathVariable String categoryName) throws Exception{
-//        return new ResponseEntity<>(articleService.getArticlesByCategory(categoryName), HttpStatus.OK);
-//    }
 }
