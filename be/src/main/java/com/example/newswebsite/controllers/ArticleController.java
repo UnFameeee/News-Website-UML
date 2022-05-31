@@ -87,17 +87,7 @@ public class ArticleController {
     public ResponseEntity<List<Article>> getAllArticleWaiting() throws Exception{
        return new ResponseEntity<>(articleService.getArticlesWaiting(), HttpStatus.OK);
     }
-
-    /***
-     * @author: idtruoc
-     * @return: get all article with status : "waiting"
-     * @throws  Exception : Return Exception if something wrong
-     */
-    @GetMapping("/waiting/")
-    public ResponseEntity<List<Article>> getAllArticleWaiting() throws Exception{
-        return new ResponseEntity<>(articleService.getArticlesWaiting(), HttpStatus.OK);
-    }
-
+    
     /***
      * @author: idtruoc
      * @return: Get All article checked by admin
