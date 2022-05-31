@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -20,4 +22,5 @@ public class UserDto {
     private String description;
     private String role;
     private Boolean isActive;
+    private List<String> favoriteArtical;
 }

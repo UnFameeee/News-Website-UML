@@ -102,6 +102,25 @@ public class ArticleServiceImpl implements ArticleService{
             throw new Exception("System error, detail: " + ex);
         }
     }
+
+    @Override
+    public List<Article> getArticlesWaitingByUserId(String userId) throws Exception {
+        try{
+            return articleRepository.findArticlesByStatusAndUserId("Chờ duyệt", userId);
+        }catch(Exception ex){
+            throw new Exception("System error, detail: " + ex);
+        }
+    }
+
+    @Override
+    public List<Article> getArticlesCheckedByUserId(String userId) throws Exception {
+        try{
+            return articleRepository.findArticlesByStatusAndUserId("Đã duyệt", userId);
+        }catch(Exception ex){
+            throw new Exception("System error, detail: " + ex);
+        }
+    }
+
     // lấy những bài viết admin đã duyệt của chính admin đó
     @Override
     public List<Article> getArticlesChecked(ArticleDto articleDto) throws Exception {
