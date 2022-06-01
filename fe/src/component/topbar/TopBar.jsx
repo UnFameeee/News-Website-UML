@@ -11,7 +11,14 @@ export default function TopBar(){
     const handleLogout = () => {
         dispatch({type: "LOGOUT"});
         console.log(user)
-        // window.location.replace("/")
+        window.location.replace("/")
+    }
+
+    function refreshPage() {
+        setTimeout(()=>{
+            window.location.reload(false);
+        }, 100);
+        console.log('page to reload')
     }
 
     useEffect(()=>{
@@ -37,28 +44,24 @@ export default function TopBar(){
                 {/* <i className="topIcon fa-brands fa-facebook-square"></i>
                 <i className="topIcon fa-brands fa-twitter-square"></i>
                 <i className="topIcon fa-brands fa-google-plus-square"></i> */}
-                <Link className="link" to="/"><i className="topIcon fa-solid fa-house-chimney"></i></Link>
+                {(
+                    (user ? ((user.role !== "creator" && user.role !== "censor" && user.role !== "admin")) : (user === null)) && <Link className="link" to="/"><i className="topIcon fa-solid fa-house-chimney"></i></Link>
+                )}
             </div>
             <div className="topCenter">
                 <ul className="topList">
-                    {cats.map((c) => (
-                        // <Link to={`/search/articles/?cate=${c.categoryName}`} className="link">
-                        <Link to={`/api/articles/?cate=${c.categoryName}`} className="link">
-                            <li className="topListItem">{c.categoryName}</li>
-                        </Link>
-                    ))}
-                    {/* <li className="topListItem">
-                        <Link className="link" to="/">ABOUT</Link> 
-                    </li>
-                    <li className="topListItem">
-                        <Link className="link" to="/">CONTACT</Link>
-                    </li> */}
                     {(
-                        user ? user.role === "creator" &&  <li className="topListItem">
-                        <Link className="link" to="/write">WRITE</Link></li>
-                    : "")}
+                    (user ? ((user.role !== "creator" && user.role !== "censor" && user.role !== "admin")) : (user === null)) && 
+                        cats.map((c) => (
+                            <Link to={`/api/articles/?cate=${c.categoryName}`} onClick={refreshPage} className="link">
+                                <li className="topListItem">{c.categoryName}</li>
+                            </Link>
+                        ))
+                    )}
+                    
                 </ul>
             </div>
+            
             <div className="topRight">
                 {user ? (
                         <div className="dropdown-menu" onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
@@ -83,22 +86,42 @@ export default function TopBar(){
                                         <div onClick={hideDropdown}>Bài viết đã lưu</div>
                                         </Link>
                                     }
+
                                     {
                                         user.role === "creator" && 
-                                        <Link className="dropdown-list-ele" to="/">
-                                        <div onClick={hideDropdown}>Bài viết đã viết</div>
-                                        </Link>
-                                    }
-                                    {
-                                        user.role === "censor" && 
-                                        <Link className="dropdown-list-ele" to="/">
+                                        <Link to={`/api/articles/creator/${user.id}/?status=Chờ duyệt`} className="dropdown-list-ele" >
                                         <div onClick={hideDropdown}>Bài viết chờ duyệt</div>
                                         </Link>
                                     }
                                     {
-                                        user.role === "censor" && 
-                                        <Link className="dropdown-list-ele" to="/">
+                                        user.role === "creator" && 
+                                        <Link to={`/api/articles/creator/${user.id}/?status=Đã duyệt`} className="dropdown-list-ele" >
                                         <div onClick={hideDropdown}>Bài viết đã duyệt</div>
+                                        </Link>
+                                    }
+                                    {
+                                        user.role === "creator" && 
+                                        <Link to={`/api/articles/creator/${user.id}/?status=Không được duyệt`} className="dropdown-list-ele" >
+                                        <div onClick={hideDropdown}>Bài viết không được duyệt</div>
+                                        </Link>
+                                    }
+                                    {
+                                        user.role === "creator" && 
+                                        <Link className="dropdown-list-ele" to="/write">
+                                        <div onClick={hideDropdown}>Viết bài mới</div>
+                                        </Link>
+                                    }
+
+                                    {
+                                        user.role === "censor" && 
+                                        <Link to={`/api/articles/creator/${user.id}/?status=Chờ duyệt`} className="dropdown-list-ele" >
+                                        <div onClick={hideDropdown}>Các bài viết chờ duyệt</div>
+                                        </Link>
+                                    }
+                                    {
+                                        user.role === "censor" && 
+                                        <Link to={`/api/articles/creator/${user.id}/?status=Đã duyệt`} className="dropdown-list-ele">
+                                        <div onClick={hideDropdown}>Bài viết đã duyệt bởi tôi</div>
                                         </Link>
                                     }
                                     

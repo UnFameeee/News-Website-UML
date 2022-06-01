@@ -33,7 +33,8 @@ public class User {
     private String role;
 
     private Boolean isActive;
-    private List<String> favoriteArtical;
+
+    private List<String> favoriteArticle;
 
 }
 

@@ -12,10 +12,12 @@ public interface UserService {
     List<User> getAllUser() throws Exception;
     User getOneUser(String id) throws NonexistentValueException;
 
+
     User updateUser(UserDto userDto) throws NonexistentValueException, ConflictedOldValueException, DuplicatedValueException;
 
-    User addFavoriteArtical(Map<String, String> data) throws NonexistentValueException;
+    User addFavoriteArticle(Map<String, String> data) throws NonexistentValueException;
 
-    User removeFavoriteArtical(Map<String, String> data) throws NonexistentValueException;
+    User removeFavoriteArticle(Map<String, String> data) throws NonexistentValueException;
 
+    Boolean isLiked(String userId, String articleId) throws Exception;
 }

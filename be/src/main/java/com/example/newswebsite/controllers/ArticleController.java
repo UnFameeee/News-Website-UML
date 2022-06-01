@@ -23,22 +23,19 @@ public class ArticleController {
     private ArticleService articleService;
 
     /***
-     * @author: Unfame, idtruoc
+     * @author: Unfame
      * @return: All article in the database
      * @throws Exception : Return Exception if something wrong
      */
     @GetMapping("/")
-    public ResponseEntity<List<Article>> getAllArticle(@RequestParam(value = "cate", required = false) String cate) throws Exception{
-        if(cate == null)
+    public ResponseEntity<List<Article>> getAllArticle(@RequestParam(value = "cate", required = false) String cate, @RequestParam(value = "search", required = false) String search) throws Exception{
+        if(cate == null && search == null)
             return new ResponseEntity<>(articleService.getAllArticle(), HttpStatus.OK);
-        else
+        else if(cate != null)
             return new ResponseEntity<>(articleService.getAllArticleByCateId(cate), HttpStatus.OK);
+        else
+            return new ResponseEntity<>(articleService.searchArticlesByTitle(search), HttpStatus.OK);
     }
-
-//    @GetMapping("?{cate}")
-//    public ResponseEntity<List<Article>> getAllArticleByCateId(@RequestParam String cate, @PathVariable String cate) throws Exception{
-//        return new ResponseEntity<>(articleService.getAllArticle(), HttpStatus.OK);
-//    }
 
     /***
      * @author: Unfame
@@ -80,7 +77,6 @@ public class ArticleController {
         return new ResponseEntity<>(articleService.changeStatusArticleNotChecked(data), HttpStatus.OK);
     }
 
-
     /***
      * @author: idtruoc
      * @return: get some article trending
@@ -90,62 +86,6 @@ public class ArticleController {
     public ResponseEntity<List<Article>> getTrendingArticle() throws Exception{
         return new ResponseEntity<>(articleService.getArticlesTrending(), HttpStatus.OK);
     }
-    /***
-     * @author: idtruoc
-     * @return: Get All article with status "Đã duyệt" by censor
-     * @throws  Exception : Return Exception if something wrong
-     */
-    @GetMapping("/checked/censor")
-    public ResponseEntity<List<Article>> getAllArticleChecked(@Valid @RequestBody  ArticleDto articleDto) throws Exception{
-        return new ResponseEntity<>(articleService.getArticlesChecked(articleDto), HttpStatus.OK);
-
-    }
-    /***
-     * @author: idtruoc
-     * @return: Get All article with status "Chờ duyệt"
-     * @throws  Exception : Return Exception if something wrong
-     */
-    @GetMapping("/waiting/")
-    public ResponseEntity<List<Article>> getAllArticleWaiting() throws Exception{
-        return new ResponseEntity<>(articleService.getArticlesWaiting(), HttpStatus.OK);
-
-    }
-    /***
-     * @author: idtruoc
-     * @return: get all article with status : "Chờ duyệt" ,"Đã duyệt", "Không được duyệt" by Creator
-     * @throws  Exception : Return Exception if something wrong
-     */
-    @GetMapping("/creator/{userId}/")
-    public ResponseEntity<List<Article>> getAllArticleCreator(@Valid @PathVariable String userId,@RequestParam(value = "status") String status) throws Exception{
-
-           if (Objects.equals(status, "Chờ duyệt"))
-               return new ResponseEntity<>(articleService.getArticlesWaitingByUserId(userId), HttpStatus.OK);
-           else if (Objects.equals(status, "Đã duyệt"))
-               return new ResponseEntity<>(articleService.getArticlesCheckedByUserId(userId), HttpStatus.OK);
-           else if (Objects.equals(status,  "Không được duyệt"))
-               return new ResponseEntity<>(articleService.getArticlesNotCheckedByUserId(userId), HttpStatus.OK);
-           return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NOT_FOUND);
-
-    }
-//    /***
-//     * @author: idtruoc
-//     * @return: get all article with status : "Đã duyệt" by UserId
-//     * @throws  Exception : Return Exception if something wrong
-//     */
-//    @GetMapping("/checked/creator/{userId}")
-//    public ResponseEntity<List<Article>> getAllArticleCheckedByUserId(@Valid @PathVariable String userId) throws Exception{
-//        return new ResponseEntity<>(articleService.getArticlesCheckedByUserId(userId), HttpStatus.OK);
-//    }
-//
-//    /***
-//     * @author: idtruoc
-//     * @return: get all article with status : "Không được duyệt" by UserId
-//     * @throws  Exception : Return Exception if something wrong
-//     */
-//    @GetMapping("/notchecked/creator/{userId}")
-//    public ResponseEntity<List<Article>> getAllArticleNotCheckedByUserId(@Valid @PathVariable String userId) throws Exception{
-//        return new ResponseEntity<>(articleService.getArticlesNotCheckedByUserId(userId), HttpStatus.OK);
-//    }
 
     /***
      * @author: idtruoc, Unfame
@@ -158,13 +98,45 @@ public class ArticleController {
     }
 
     /***
-     * @author: idtruoc
-     * @return: Search artircle with title
+     * @author: Unfame
+     * @return: get all article with status : "Chờ duyệt" ,"Đã duyệt" by Creator
      * @throws  Exception : Return Exception if something wrong
      */
-    @GetMapping("/search/{title}")
-    public ResponseEntity<List<Article>> searchArticleByTitle(@Valid @PathVariable String title) throws Exception{
-        return new ResponseEntity<>(articleService.searchArticlesByTitle(title), HttpStatus.OK);
+    @GetMapping("/censor/{censorId}/")
+    public ResponseEntity<List<Article>> getAllArticleCensor(@Valid @PathVariable String censorId,@RequestParam(value = "status", required = false) String status) throws Exception{
+        //Tất cả các Censor đều có thể xem các bài viết chờ duyệt
+        if (Objects.equals(status, "Chờ duyệt"))
+            return new ResponseEntity<>(articleService.getArticlesWaiting(), HttpStatus.OK);
+        //Các bài viết đã duyệt bởi chính censor đó
+        else if (Objects.equals(status, "Đã duyệt"))
+            return new ResponseEntity<>(articleService.getArticlesChecked(censorId), HttpStatus.OK);
+        return new ResponseEntity<>(articleService.getArticlesWaiting(), HttpStatus.OK);
     }
 
+    /***
+     * @author: idtruoc, Unfame
+     * @return: get all article with status : "Chờ duyệt" ,"Đã duyệt", "Không được duyệt" by Creator
+     * @throws  Exception : Return Exception if something wrong
+     */
+    @GetMapping("/creator/{userId}/")
+    public ResponseEntity<List<Article>> getAllArticleCreator(@Valid @PathVariable String userId,@RequestParam(value = "status", required = false) String status) throws Exception{
+       if (Objects.equals(status, "Chờ duyệt"))
+           return new ResponseEntity<>(articleService.getArticlesWaitingByUserId(userId), HttpStatus.OK);
+       else if (Objects.equals(status, "Đã duyệt"))
+           return new ResponseEntity<>(articleService.getArticlesCheckedByUserId(userId), HttpStatus.OK);
+       else if (Objects.equals(status,  "Không được duyệt"))
+           return new ResponseEntity<>(articleService.getArticlesNotCheckedByUserId(userId), HttpStatus.OK);
+        //Vừa đăng nhập vào =>
+       return new ResponseEntity<>(articleService.getArticlesCheckedByUserId(userId), HttpStatus.OK);
+    }
+
+//    /***
+//     * @author: idtruoc
+//     * @return: Search artircle with title
+//     * @throws  Exception : Return Exception if something wrong
+//     */
+//    @GetMapping("/search/{title}")
+//    public ResponseEntity<List<Article>> searchArticleByTitle(@Valid @PathVariable String title) throws Exception{
+//        return new ResponseEntity<>(articleService.searchArticlesByTitle(title), HttpStatus.OK);
+//    }
 }

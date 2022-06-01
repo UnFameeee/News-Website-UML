@@ -18,15 +18,14 @@ export default function PostAdmin({postAdmin}){
 
     const MappingCateName = (c) => {
         for(let i = 0; i < cats.length; ++i){
-            if(cats[i].id === c)
+            if(cats[i].id === c){
                 return cats[i].categoryName
-        return ""
+            }
         }
     }
 
     return ( 
         <div className="postAdmin">
-            {console.log(postAdmin)}
             {postAdmin.image && (
                 <img className="postAdminImg"
                  src={postAdmin.image}

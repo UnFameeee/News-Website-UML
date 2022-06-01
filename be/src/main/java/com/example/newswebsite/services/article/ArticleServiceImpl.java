@@ -37,7 +37,7 @@ public class ArticleServiceImpl implements ArticleService{
     public List<Article> getAllArticleByCateId(String cate) throws Exception {
         try{
             Optional<Category> category = categoryRepository.findCategoryByCategoryNameAndIsActive(cate, true);
-            return articleRepository.findArticlesByCategoryAndStatus("Đã duyệt",category.get().getId());
+            return articleRepository.findArticlesByCategoryAndStatus("Đã duyệt", category.get().getId());
         }catch(Exception ex){
             throw new Exception("System error, detail: " + ex);
         }
@@ -152,10 +152,9 @@ public class ArticleServiceImpl implements ArticleService{
 
     // lấy những bài viết admin đã duyệt của chính admin đó
     @Override
-    public List<Article> getArticlesChecked(ArticleDto articleDto) throws Exception {
-
+    public List<Article> getArticlesChecked(String censorId) throws Exception {
         try{
-            return articleRepository.findArticlesByStatusAndCensorId("Đã duyệt",articleDto.getCensorId());
+            return articleRepository.findArticlesByStatusAndCensorId("Đã duyệt", censorId);
         }catch(Exception ex){
             throw new Exception("System error, detail: " + ex);
         }

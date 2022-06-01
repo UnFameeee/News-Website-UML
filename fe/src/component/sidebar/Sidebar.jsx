@@ -7,17 +7,23 @@ import "./sidebar.css"
 
 export default function Sidebar(){
     
-    const {user, dispatch} = useContext(Context)
+    const {user} = useContext(Context)
     const [cats, setCats] = useState([]);
     const [catSelected, setCatSelected] = useState("");
     const [cateInput, setCateInput] = useState("");
+    const [searchInput, setSearchInput] = useState("");
     const [miniPosts, setMiniPosts] = useState([]);
 
+    
     useEffect(() => {
         const fetchPosts = async () => {
-            let path = "";
+            let path = "/articles/trending/";
+            // console.log(window.location.href.indexOf("/articles/") != "-1")
+            console.log(window.location.href.split("/"));
             if(window.location.href.indexOf("/articles/") != "-1"){
-                path = "/articles/category/" + window.location.href.split("/")[4];
+                if(window.location.href.split("/").length == 5)
+                // if(window.location.href.split("/")[5].indexOf("?") == -1)
+                    path = "/articles/category/" + window.location.href.split("/")[4];
             }else{
                 path = "/articles/trending/";   
             }
@@ -26,12 +32,12 @@ export default function Sidebar(){
         }
         fetchPosts()
     }, [])
+    
 
     useEffect(()=>{
         const getCats = async ()=>{
             const res = await axiosInstance.get("/category/");
             setCats(res.data);
-            console.log(res.data)
         }
         getCats();
     }, [])
@@ -49,7 +55,6 @@ export default function Sidebar(){
                 isActive: true
             } 
             const res = await axiosInstance.post("/category", data);
-            console.log(res.data)
             setTimeout(window.location.reload(), 5000);
         }catch(err){
             
@@ -63,8 +68,22 @@ export default function Sidebar(){
                 newCategoryName: cateInput.toUpperCase()
             }
             const res = await axiosInstance.put("/category", data);
-            console.log(res.data)
             setTimeout(window.location.reload(), 5000);
+        }catch(err){
+            
+        }   
+    }
+
+    function refreshPage() {
+        setTimeout(()=>{
+            window.location.reload(false);
+        }, 100);
+        console.log('page to reload')
+    }
+
+    const handleSearch = async (e) => {
+        try{
+            window.location.replace(`/api/articles/?search=${searchInput}`)
         }catch(err){
             
         }   
@@ -81,8 +100,8 @@ export default function Sidebar(){
                     <label>Tìm kiếm</label>
                 </span> */}
                 <div className="sidebarSearchItem">
-                    <input type="text" className="searchInput" placeholder="Tìm kiếm tin tức..." />
-                    <button className="searchButton"><i className="topSearchIcon fas fa-magnifying-glass"></i>Tìm kiếm</button>
+                    <input type="text" className="searchInput" onChange={e => setSearchInput(e.target.value)} placeholder="Tìm kiếm tin tức..." />
+                    <button className="searchButton" onClick={handleSearch}><i className="topSearchIcon fas fa-magnifying-glass"></i>Tìm kiếm</button>
                 </div>
             </div>
             <div className="sidebarItem">
@@ -90,8 +109,7 @@ export default function Sidebar(){
                     : ""
                 }
 
-                {user ? user.role === "member" && (window.location.href.indexOf("/articles/")!="-1" ? <span className="sidebarTitle">Các bài báo liên quan</span> : <span className="sidebarTitle">Các bài báo nổi bật </span>)
-                    : ""
+                {(user ? ((user.role !== "creator" && user.role !== "censor" && user.role !== "admin")) : (user == null)) && (window.location.href.indexOf("/articles/")!="-1" ? <span className="sidebarTitle">Các bài báo liên quan</span> : <span className="sidebarTitle">Các bài báo nổi bật </span>)
                 }
 
             </div>
@@ -117,6 +135,10 @@ export default function Sidebar(){
             {user ? user.role === "member" && (
                 <MiniPosts miniPosts = {miniPosts}/>
             ) : ""}
+
+            {user===null && (
+                <MiniPosts miniPosts = {miniPosts}/>
+            )}
 
             {/* <div className="sidebarItem">
                 <span className="sidebarTitle">FOLLOW US</span>
