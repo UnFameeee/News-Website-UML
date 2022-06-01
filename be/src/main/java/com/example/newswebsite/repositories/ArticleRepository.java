@@ -28,6 +28,11 @@ public interface ArticleRepository extends MongoRepository<Article, String> {
     @Query(" { 'status':  '?0'  }, { 'censorId': '?0'} ")
     List<Article> findArticlesByStatusAndCensorId(String status,String censorId);
 
+    @Query(" { 'status':  '?0'  }, { 'userId': '?0'} ")
+    List<Article> findArticlesByStatusAndUserId(String status,String userId);
+
     @Query(" { $text: {$search: '?0'}} ")
     List<Article> searchArticleByTitle(String search);
+
+
 }

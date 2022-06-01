@@ -6,9 +6,16 @@ import com.example.newswebsite.exceptions.DuplicatedValueException;
 import com.example.newswebsite.exceptions.NonexistentValueException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     List<User> getAllUser() throws Exception;
     User getOneUser(String id) throws NonexistentValueException;
+
     User updateUser(UserDto userDto) throws NonexistentValueException, ConflictedOldValueException, DuplicatedValueException;
+
+    User addFavoriteArtical(Map<String, String> data) throws NonexistentValueException;
+
+    User removeFavoriteArtical(Map<String, String> data) throws NonexistentValueException;
+
 }

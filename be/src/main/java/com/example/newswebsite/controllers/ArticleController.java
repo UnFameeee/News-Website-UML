@@ -78,15 +78,7 @@ public class ArticleController {
         return new ResponseEntity<>(articleService.changeStatusArticleNotChecked(data), HttpStatus.OK);
     }
 
-    /***
-     * @author: idtruoc
-     * @return: get all article with status : "waiting"
-     * @throws  Exception : Return Exception if something wrong
-     */
-    @GetMapping("/waiting/")
-    public ResponseEntity<List<Article>> getAllArticleWaiting() throws Exception{
-       return new ResponseEntity<>(articleService.getArticlesWaiting(), HttpStatus.OK);
-    }
+
 
     /***
      * @author: idtruoc
@@ -99,6 +91,23 @@ public class ArticleController {
 
     }
 
+    /***
+     * @author: idtruoc
+     * @return: get all article with status : "waiting" by UserId
+     * @throws  Exception : Return Exception if something wrong
+     */
+    @GetMapping("/userId/waiting/{userId}")
+    public ResponseEntity<List<Article>> getAllArticleWaitingByUserId(@Valid @PathVariable String userId) throws Exception{
+        return new ResponseEntity<>(articleService.getArticlesWaitingByUserId(userId), HttpStatus.OK);
+    }  /***
+     * @author: idtruoc
+     * @return: get all article with status : "Checked" by UserId
+     * @throws  Exception : Return Exception if something wrong
+     */
+    @GetMapping("/userId/checked/{userId}")
+    public ResponseEntity<List<Article>> getAllArticleCheckedByUserId(@Valid @PathVariable String userId) throws Exception{
+        return new ResponseEntity<>(articleService.getArticlesCheckedByUserId(userId), HttpStatus.OK);
+    }
     /***
      * @author: idtruoc
      * @return: Search artircle with title

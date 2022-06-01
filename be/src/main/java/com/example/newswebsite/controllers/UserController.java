@@ -1,6 +1,7 @@
 package com.example.newswebsite.controllers;
 
 import com.example.newswebsite.dtos.UserDto;
+import com.example.newswebsite.entities.Article;
 import com.example.newswebsite.entities.User;
 import com.example.newswebsite.exceptions.ConflictedOldValueException;
 import com.example.newswebsite.exceptions.DuplicatedValueException;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -49,5 +51,24 @@ public class UserController {
     @PutMapping("")
     public ResponseEntity<User> updateUser(@Valid @RequestBody UserDto userDto) throws NonexistentValueException, ConflictedOldValueException, DuplicatedValueException {
         return new ResponseEntity<>(userService.updateUser(userDto), HttpStatus.OK);
+    }
+
+    /***
+     * @author: idtruoc
+     * @return: User with list favorite Article has been added
+     * @throws NonexistentValueException : Return Exception if the request user doesn't exist
+     */
+    @PutMapping("/favoriteArticle/add")
+    public ResponseEntity<User> addFavorite(@Valid @RequestBody Map<String, String> data) throws NonexistentValueException{
+        return new ResponseEntity<User>(userService.addFavoriteArtical(data), HttpStatus.OK);
+    }
+    /***
+     * @author: idtruoc
+     * @return: User with list favorite Article has been added
+     * @throws NonexistentValueException : Return Exception if the request user doesn't exist
+     */
+    @PutMapping("/favoriteArticle/remove")
+    public ResponseEntity<User> removeFavorite(@Valid @RequestBody Map<String, String> data) throws NonexistentValueException{
+        return new ResponseEntity<User>(userService.removeFavoriteArtical(data), HttpStatus.OK);
     }
 }
