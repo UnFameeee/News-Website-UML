@@ -11,6 +11,7 @@ import com.example.newswebsite.utils.GetDateFormatedSingleton;
 import com.example.newswebsite.utils.ModelMapperSingleton;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,7 +29,19 @@ public class ArticleServiceImpl implements ArticleService{
     @Override
     public List<Article> getAllArticle() throws Exception {
         try{
-            return articleRepository.findAllArticle();
+            List<Article> articles = articleRepository.findAllArticle();
+//            List<Category> categories = categoryRepository.findAllCategory();
+
+//            Map<String, String> mapCate = new HashMap<>();
+//            for (Category cate : categories) {
+//                mapCate.put(cate.getId(), cate.getCategoryName());
+//            }
+
+//            for (Article arti : articles) {
+//                arti.set
+//                System.out.println(index);
+//            }
+        return  articles;
         }catch(Exception ex){
             throw new Exception("System error, detail: " + ex);
         }
