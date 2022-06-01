@@ -11,8 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/articles")
@@ -79,7 +81,15 @@ public class ArticleController {
     }
 
 
-
+    /***
+     * @author: idtruoc
+     * @return: get some article trending
+     * @throws  Exception : Return Exception if something wrong
+     */
+    @GetMapping("/trendingarticle")
+    public ResponseEntity<List<Article>> getTrendingArticle() throws Exception{
+        return new ResponseEntity<>(articleService.getArticlesTrending(), HttpStatus.OK);
+    }
     /***
      * @author: idtruoc
      * @return: Get All article with status "Đã duyệt" by censor
@@ -102,32 +112,51 @@ public class ArticleController {
     }
     /***
      * @author: idtruoc
-     * @return: get all article with status : "Chờ duyệt" by UserId
+     * @return: get all article with status : "Chờ duyệt" ,"Đã duyệt", "Không được duyệt" by Creator
      * @throws  Exception : Return Exception if something wrong
      */
-    @GetMapping("/waiting/creator/{userId}")
-    public ResponseEntity<List<Article>> getAllArticleWaitingByUserId(@Valid @PathVariable String userId) throws Exception{
-        return new ResponseEntity<>(articleService.getArticlesWaitingByUserId(userId), HttpStatus.OK);
+    @GetMapping("/creator/{userId}/")
+    public ResponseEntity<List<Article>> getAllArticleCreator(@Valid @PathVariable String userId,@RequestParam(value = "status") String status) throws Exception{
+
+           if (Objects.equals(status, "Chờ duyệt"))
+               return new ResponseEntity<>(articleService.getArticlesWaitingByUserId(userId), HttpStatus.OK);
+           else if (Objects.equals(status, "Đã duyệt"))
+               return new ResponseEntity<>(articleService.getArticlesCheckedByUserId(userId), HttpStatus.OK);
+           else if (Objects.equals(status,  "Không được duyệt"))
+               return new ResponseEntity<>(articleService.getArticlesNotCheckedByUserId(userId), HttpStatus.OK);
+           return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NOT_FOUND);
+
     }
-    /***
-     * @author: idtruoc
-     * @return: get all article with status : "Đã duyệt" by UserId
-     * @throws  Exception : Return Exception if something wrong
-     */
-    @GetMapping("/checked/creator/{userId}")
-    public ResponseEntity<List<Article>> getAllArticleCheckedByUserId(@Valid @PathVariable String userId) throws Exception{
-        return new ResponseEntity<>(articleService.getArticlesCheckedByUserId(userId), HttpStatus.OK);
-    }
+//    /***
+//     * @author: idtruoc
+//     * @return: get all article with status : "Đã duyệt" by UserId
+//     * @throws  Exception : Return Exception if something wrong
+//     */
+//    @GetMapping("/checked/creator/{userId}")
+//    public ResponseEntity<List<Article>> getAllArticleCheckedByUserId(@Valid @PathVariable String userId) throws Exception{
+//        return new ResponseEntity<>(articleService.getArticlesCheckedByUserId(userId), HttpStatus.OK);
+//    }
+//
+//    /***
+//     * @author: idtruoc
+//     * @return: get all article with status : "Không được duyệt" by UserId
+//     * @throws  Exception : Return Exception if something wrong
+//     */
+//    @GetMapping("/notchecked/creator/{userId}")
+//    public ResponseEntity<List<Article>> getAllArticleNotCheckedByUserId(@Valid @PathVariable String userId) throws Exception{
+//        return new ResponseEntity<>(articleService.getArticlesNotCheckedByUserId(userId), HttpStatus.OK);
+//    }
 
     /***
      * @author: idtruoc
-     * @return: get all article with status : "Không được duyệt" by UserId
+     * @return: List Article by cate related
      * @throws  Exception : Return Exception if something wrong
      */
-    @GetMapping("/notchecked/creator/{userId}")
-    public ResponseEntity<List<Article>> getAllArticleNotCheckedByUserId(@Valid @PathVariable String userId) throws Exception{
-        return new ResponseEntity<>(articleService.getArticlesNotCheckedByUserId(userId), HttpStatus.OK);
+    @GetMapping("/category/{cate}")
+    public ResponseEntity<List<Article>> getArticleRelatedByCategory(@Valid @PathVariable String cate) throws Exception{
+        return new ResponseEntity<>(articleService.getArticlesByCatRelated(cate), HttpStatus.OK);
     }
+
     /***
      * @author: idtruoc
      * @return: Search artircle with title

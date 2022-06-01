@@ -18,11 +18,14 @@ public interface ArticleService {
     Article changeStatusArticleNotChecked(Map<String, String> data) throws NonexistentValueException;
 
     List<Article> getArticlesWaiting() throws Exception;
-    List<Article> getArticlesByCatRelate() throws Exception;
+    List<Article> getArticlesByCatRelated(String cate) throws Exception;
     List<Article> getArticlesWaitingByUserId(String userId) throws Exception;
 
     List<Article> getArticlesCheckedByUserId(String userId) throws Exception;
     List<Article> getArticlesNotCheckedByUserId(String userId) throws Exception;
     List<Article> getArticlesChecked(ArticleDto articleDto) throws Exception;
     List<Article> searchArticlesByTitle(String title) throws Exception;
+
+    //noi bat
+    List<Article> getArticlesTrending() throws Exception;
 }

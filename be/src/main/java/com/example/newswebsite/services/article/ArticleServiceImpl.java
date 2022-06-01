@@ -11,11 +11,8 @@ import com.example.newswebsite.utils.GetDateFormatedSingleton;
 import com.example.newswebsite.utils.ModelMapperSingleton;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
+import java.util.*;
+import java.util.Collections;
 @Service
 public class ArticleServiceImpl implements ArticleService{
     private final ArticleRepository articleRepository;
@@ -117,8 +114,20 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    public List<Article> getArticlesByCatRelate() throws Exception {
-        return null;
+    public List<Article> getArticlesByCatRelated(String cate) throws Exception {
+        try{
+            Optional<Category> category = categoryRepository.findCategoryByCategoryNameAndIsActive(cate, true);
+            List<Article> articleList = new ArrayList<>();
+            List<Article> articleListNew = new ArrayList<>();
+            articleList = articleRepository.findArticlesByCategoryAndStatus("Đã duyệt",category.get().getId());
+            Collections.shuffle(articleList);
+            for(int i =0;i<6;i++){
+                articleListNew.add(articleList.get(i)) ;
+            }
+            return  articleListNew;
+        }catch(Exception ex){
+            throw new Exception("System error, detail: " + ex);
+        }
     }
 
     @Override
@@ -163,6 +172,23 @@ public class ArticleServiceImpl implements ArticleService{
     public List<Article> searchArticlesByTitle(String title) throws Exception {
         try{
             return articleRepository.searchArticleByTitle(title);
+        }catch(Exception ex){
+            throw new Exception("System error, detail: " + ex);
+        }
+    }
+
+    @Override
+    public List<Article> getArticlesTrending() throws Exception {
+        try{
+            List<Article> articleList = articleRepository.findArticlesByStatus("Đã duyệt");
+
+            List<Article> articleListNew = new ArrayList<>();
+
+            Collections.shuffle(articleList);
+            for(int i =0;i<6;i++){
+                articleListNew.add(articleList.get(i)) ;
+            }
+            return  articleListNew;
         }catch(Exception ex){
             throw new Exception("System error, detail: " + ex);
         }
