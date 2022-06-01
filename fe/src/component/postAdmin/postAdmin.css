@@ -16,6 +16,66 @@
     align-items: center;
 }
 
+.postAdminStatusWaitInfo{
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    width: 150px;
+    height: 30px;
+    background-color: #C8C8C8;
+    background-size: 3000px 100px;
+    outline: auto;
+    outline-style: round;
+    box-shadow: 0 0 3pt 2pt #C8C8C8;
+    outline-color: #C8C8C8;
+    margin: 10px 0 10px 0 ;
+    font-weight: bold;
+    color: gray;
+    /* border: 1px solid lightgreen; */
+
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.postAdminStatusRejectInfo{
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    width: 150px;
+    height: 30px;
+    background-color: #ffa9a9;
+    background-size: 3000px 100px;
+    outline: auto;
+    outline-style: round;
+    box-shadow: 0 0 3pt 2pt #ffa9a9;
+    outline-color: #ffa9a9;
+    margin: 10px 0 10px 0 ;
+    font-weight: bold;
+    color: #F45858;
+    /* border: 1px solid lightgreen; */
+
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.postAdminStatusAcceptInfo{
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    width: 150px;
+    height: 30px;
+    background-color: lightgreen;
+    background-size: 3000px 100px;
+    outline: auto;
+    outline-style: round;
+    box-shadow: 0 0 3pt 2pt lightgreen;
+    outline-color: lightgreen;
+    margin: 10px 0 10px 0 ;
+    font-weight: bold;
+    color: #247324;
+    /* border: 1px solid lightgreen; */
+
+    font-family: 'Josefin Sans', sans-serif;
+}
+
 .postAdminSubInfo{
     width: 100%;
     display: flex;

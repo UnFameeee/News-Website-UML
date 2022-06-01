@@ -11,7 +11,7 @@ export default function TopBar(){
     const handleLogout = () => {
         dispatch({type: "LOGOUT"});
         console.log(user)
-        window.location.replace("/")
+        // window.location.replace("/")
     }
 
     useEffect(()=>{
@@ -30,8 +30,6 @@ export default function TopBar(){
     const hideDropdown = () => {
         setStateDrop(false)
     }
-
-    
 
     return ( 
         <div className='top'>
