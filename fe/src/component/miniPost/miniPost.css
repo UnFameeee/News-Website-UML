@@ -1,0 +1,38 @@
+.postMini{
+    width: 95%;
+    margin: 0px 0px 40px 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;    
+    outline: auto;
+    outline-style: round;
+    outline-color: #FFFFFF;
+    background-color: #dbdbdb;
+    padding: 15px;
+}
+
+.postMiniImg{
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 7px;
+}
+
+.postMiniInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-left: 2%;
+    height: 100%;
+}
+
+.postMiniTitle{
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    cursor: pointer;
+    text-align: left;
+    height: 100%;
+    margin: 10px 0px 5px 0px;
+}

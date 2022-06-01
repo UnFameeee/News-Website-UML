@@ -53,9 +53,10 @@ export default function TopBar(){
                     <li className="topListItem">
                         <Link className="link" to="/">CONTACT</Link>
                     </li> */}
-                    <li className="topListItem">
-                        <Link className="link" to="/write">WRITE</Link>
-                    </li>
+                    {(
+                        user ? user.role === "creator" &&  <li className="topListItem">
+                        <Link className="link" to="/write">WRITE</Link></li>
+                    : "")}
                 </ul>
             </div>
             <div className="topRight">
@@ -117,7 +118,6 @@ export default function TopBar(){
                                 </div> ) : null
                             }
                             </div>
-                        
                     </div>
                 ):( 
                     <ul className="topList">

@@ -1,6 +1,6 @@
 import "./post.css"
 // import Single from "../../pages/single/Single";
-import {useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import {Link} from "react-router-dom"
 import axiosInstance from "../../helper/axios";
 
@@ -17,10 +17,10 @@ export default function Post({post}){
     }, [])
 
     const MappingCateName = (c) => {
-        for(let i = 0; i < cats.length; ++i){
-            if(cats[i].id === c)
+        for(let i = 0; i < cats.length; i++){
+            if(cats[i].id == c){
                 return cats[i].categoryName
-        return ""
+            }
         }
     }
     

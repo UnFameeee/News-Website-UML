@@ -86,7 +86,7 @@ public class ArticleController {
      * @return: get some article trending
      * @throws  Exception : Return Exception if something wrong
      */
-    @GetMapping("/trendingarticle")
+    @GetMapping("/trending")
     public ResponseEntity<List<Article>> getTrendingArticle() throws Exception{
         return new ResponseEntity<>(articleService.getArticlesTrending(), HttpStatus.OK);
     }
@@ -148,13 +148,13 @@ public class ArticleController {
 //    }
 
     /***
-     * @author: idtruoc
+     * @author: idtruoc, Unfame
      * @return: List Article by cate related
      * @throws  Exception : Return Exception if something wrong
      */
-    @GetMapping("/category/{cate}")
-    public ResponseEntity<List<Article>> getArticleRelatedByCategory(@Valid @PathVariable String cate) throws Exception{
-        return new ResponseEntity<>(articleService.getArticlesByCatRelated(cate), HttpStatus.OK);
+    @GetMapping("/category/{postId}")
+    public ResponseEntity<List<Article>> getArticleRelatedByCategory(@Valid @PathVariable String postId) throws Exception{
+        return new ResponseEntity<>(articleService.getArticlesByCatRelated(postId), HttpStatus.OK);
     }
 
     /***

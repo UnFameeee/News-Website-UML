@@ -2,13 +2,30 @@ import { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 import axiosInstance from "../../helper/axios";
+import MiniPosts from "../miniPosts/MiniPosts";
 import "./sidebar.css"
 
 export default function Sidebar(){
+    
     const {user, dispatch} = useContext(Context)
     const [cats, setCats] = useState([]);
     const [catSelected, setCatSelected] = useState("");
     const [cateInput, setCateInput] = useState("");
+    const [miniPosts, setMiniPosts] = useState([]);
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            let path = "";
+            if(window.location.href.indexOf("/articles/") != "-1"){
+                path = "/articles/category/" + window.location.href.split("/")[4];
+            }else{
+                path = "/articles/trending/";   
+            }
+            const res = await axiosInstance.get(path)
+            setMiniPosts(res.data)
+        }
+        fetchPosts()
+    }, [])
 
     useEffect(()=>{
         const getCats = async ()=>{
@@ -70,9 +87,13 @@ export default function Sidebar(){
             </div>
             <div className="sidebarItem">
                 {user ? user.role === "admin" && <span className="sidebarTitle">Danh sách Category</span>
-                    : <span className="sidebarTitle">Các bài báo liên quan</span>
+                    : ""
                 }
-                
+
+                {user ? user.role === "member" && (window.location.href.indexOf("/articles/")!="-1" ? <span className="sidebarTitle">Các bài báo liên quan</span> : <span className="sidebarTitle">Các bài báo nổi bật </span>)
+                    : ""
+                }
+
             </div>
             {user ? user.role === "admin" && (
                 <div className="sidebarCateItem">
@@ -92,6 +113,11 @@ export default function Sidebar(){
                 <button className="submitCateButton" onClick={handleCateDelete}>Xóa</button>
             </div>
             ) : ""}
+
+            {user ? user.role === "member" && (
+                <MiniPosts miniPosts = {miniPosts}/>
+            ) : ""}
+
             {/* <div className="sidebarItem">
                 <span className="sidebarTitle">FOLLOW US</span>
                 <ul className="sidebarSocial">
