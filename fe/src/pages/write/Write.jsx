@@ -68,7 +68,7 @@ export default function Write(){
                         <i className="writeIcon fa-solid fa-plus"></i>
                     </label>
                     <input type="file" id="fileInput" style={{display: "none"}} onChange={(e) => setFile(e.target.files[0])}/>
-                    <input type="text" placeholder="Title" className="writeInput" autoFocus={true} onChange={e=>setTitle(e.target.value)}/>
+                    <input type="text" placeholder="Title" maxLength={85}className="writeInput" autoFocus={true} onChange={e=>setTitle(e.target.value)}/>
 
                     
                 </div>
