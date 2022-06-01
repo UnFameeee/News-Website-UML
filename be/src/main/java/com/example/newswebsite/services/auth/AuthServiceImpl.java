@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService {
         if(userRepository.findUserByEmail(user.getEmail()).isPresent()){
             throw new DuplicatedValueException("Email existed!!!");
         }
-        else if(userRepository.findUserByUsername(user.getPhone()).isPresent()){
+        else if(userRepository.findUserByUsername(acc.getUsername()).isPresent()){
             throw new DuplicatedValueException("Username existed!!!");
         }
 
