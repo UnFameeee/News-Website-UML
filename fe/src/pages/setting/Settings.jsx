@@ -40,6 +40,7 @@ export default function Settings(){
             fullname,
             description,
             image: imageURL,
+            "favoriteArticle": [],
             role: user.role
         };
 

@@ -24,7 +24,8 @@ export default function Register(){
                 "fullname": "", 
                 "image": "", 
                 "role": "member",
-                "description": ""
+                "description": "",
+                "favoriteArticle": []
             };
 
             const res = await axiosInstance.post("/auth/register", data)

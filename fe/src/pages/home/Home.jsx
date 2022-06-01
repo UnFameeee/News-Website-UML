@@ -20,10 +20,10 @@ export default function Home(){
             let path = "/articles/";
             if(user){
                 if(user.role === "censor"){
-                    path = "/articles/waiting/";
+                    path = `/articles/censor/${user.id}/`;
                 }
                 else if(user.role === "creator"){
-                    path = "/articles/";
+                    path = `/articles/creator/${user.id}/`;
                 }
             }
             const res = await axiosInstance.get(path + search)
@@ -39,7 +39,7 @@ export default function Home(){
                     <Header/>
                     <div className="home">
                         <PostsAdmin posts = {posts} />
-                        <Sidebar/>
+                        {/* <Sidebar/> */}
                     </div>
                 </>
             )
@@ -49,7 +49,7 @@ export default function Home(){
                     <Header/>
                     <div className="home">
                         <PostsAdmin posts = {posts} />
-                        <Sidebar/>
+                        {/* <Sidebar/> */}
                     </div>
                 </>
             )

@@ -22,5 +22,5 @@ public class UserDto {
     private String description;
     private String role;
     private Boolean isActive;
-    private List<String> favoriteArtical;
+    private List<String> favoriteArticle;
 }

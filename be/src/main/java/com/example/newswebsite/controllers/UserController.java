@@ -60,7 +60,7 @@ public class UserController {
      */
     @PutMapping("/favoriteArticle/add")
     public ResponseEntity<User> addFavorite(@Valid @RequestBody Map<String, String> data) throws NonexistentValueException{
-        return new ResponseEntity<User>(userService.addFavoriteArtical(data), HttpStatus.OK);
+        return new ResponseEntity<>(userService.addFavoriteArticle(data), HttpStatus.OK);
     }
     /***
      * @author: idtruoc
@@ -69,6 +69,16 @@ public class UserController {
      */
     @PutMapping("/favoriteArticle/remove")
     public ResponseEntity<User> removeFavorite(@Valid @RequestBody Map<String, String> data) throws NonexistentValueException{
-        return new ResponseEntity<User>(userService.removeFavoriteArtical(data), HttpStatus.OK);
+        return new ResponseEntity<>(userService.removeFavoriteArticle(data), HttpStatus.OK);
+    }
+
+    /***
+     * @author: Unfame
+     * @return: Boolean is like or not
+//     * @throws NonexistentValueException : Return Exception if the request user doesn't exist
+     */
+    @GetMapping("/isLiked/{userId}/{articleId}")
+    public ResponseEntity<Boolean> isLiked(@Valid @PathVariable String userId, @Valid @PathVariable String articleId) throws Exception{
+        return new ResponseEntity<>(userService.isLiked(userId, articleId), HttpStatus.OK);
     }
 }

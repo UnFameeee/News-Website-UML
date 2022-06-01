@@ -23,7 +23,7 @@ public interface ArticleService {
 
     List<Article> getArticlesCheckedByUserId(String userId) throws Exception;
     List<Article> getArticlesNotCheckedByUserId(String userId) throws Exception;
-    List<Article> getArticlesChecked(ArticleDto articleDto) throws Exception;
+    List<Article> getArticlesChecked(String censorId) throws Exception;
     List<Article> searchArticlesByTitle(String title) throws Exception;
 
     //noi bat

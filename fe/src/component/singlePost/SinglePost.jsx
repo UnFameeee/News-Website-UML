@@ -14,6 +14,7 @@ export default function SinglePost(){
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [updateMode, setUpdateMode] = useState(false)
+    const [liked, setLiked] = useState(false)
 
     useEffect(()=>{
         const getPost = async ()=>{
@@ -22,15 +23,51 @@ export default function SinglePost(){
             setTitle(res.data.title);
             setContent(res.data.content);
             setAuthor(await (await axiosInstance.get("/user/" + res.data.userId)).data.account.username)
+            console.log({articleId: path, userId: user.id})
+            setLiked(await axiosInstance.get(`/user/isLiked/${user.id}/${path}`))
         };
         getPost()
     }, [path])
+
+
+    function refreshPage() {
+        setTimeout(()=>{
+            window.location.reload(false);
+        }, 1000);
+        console.log('page to reload')
+    }
 
     const handleDelete = async() =>{
         try{
             await axiosInstance.delete(`/posts/${post.id}`, 
                 {data: {username: author}});
             window.location.replace("/")
+        }catch(err){
+            console.log(err)
+        }
+    } 
+
+    const handleLike = async() =>{
+        try{
+            await axiosInstance.put("/user/favoriteArticle/add", 
+                {
+                    userId: user.id,
+                    articleId: path
+                });
+            refreshPage()
+        }catch(err){
+            console.log(err)
+        }
+    } 
+
+    const handleUnlike = async() =>{
+        try{
+            await axiosInstance.put("/user/favoriteArticle/remove", 
+                {
+                    userId: user.id,
+                    articleId: path
+                });
+            refreshPage()
         }catch(err){
             console.log(err)
         }
@@ -112,10 +149,28 @@ export default function SinglePost(){
                         {post.publishedDate}
                     </span>
                 </div>
+
                 {user ? (user.role === "censor" && (
                     <div className="singlePostEditButton">
                         <p className="singlePostButtonIcon"><i className="fa-solid fa-circle-check" onClick={handleAccept}> ACCEPT</i></p>
                         <p className="singlePostButtonIcon"><i className="fa-solid fa-circle-xmark" onClick={handleReject}> REJECT</i></p>
+                    </div>
+                )) : ""}
+
+                {user ? (user.role === "member" && (
+                    <div className="singlePostEditButton">
+                        {(
+                            liked==true ? <p className="singlePostButtonIcon"><i className="fa-solid fa-circle-check" onClick={handleUnlike}> UNLIKE</i></p> : <p className="singlePostButtonIcon"><i className="fa-solid fa-circle-check" onClick={handleLike}> LIKE</i></p>
+                            
+                        )}
+                        {/* {(
+                            liked==true && <p className="singlePostButtonIcon"><i className="fa-solid fa-circle-check" onClick={handleLike}> LIKE</i></p>,
+                            liked==false && <p className="singlePostButtonIcon"><i className="fa-solid fa-circle-check" onClick={handleUnlike}> UNLIKE</i></p>
+                        )} */}
+
+
+                        
+                        
                     </div>
                     )) : ""}
                 {updateMode ? (
