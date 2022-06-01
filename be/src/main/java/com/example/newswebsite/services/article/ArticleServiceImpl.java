@@ -117,6 +117,11 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
+    public List<Article> getArticlesByCatRelate() throws Exception {
+        return null;
+    }
+
+    @Override
     public List<Article> getArticlesWaitingByUserId(String userId) throws Exception {
         try{
             return articleRepository.findArticlesByStatusAndUserId("Chờ duyệt", userId);

@@ -60,7 +60,7 @@ public class ArticleController {
 
     /***
      * @author: idtruoc, Unfame
-     * @return: The article has updated status "checked"
+     * @return: The article has updated status "Đã duyệt"
      * @throws NonexistentValueException : Return Exception if the request article doesn't exist
      */
     @PutMapping("/accept/")
@@ -70,7 +70,7 @@ public class ArticleController {
 
     /***
      * @author: idtruoc, Unfame
-     * @return: The article has updated status "not checked"
+     * @return: The article has updated status "Không được duyệt"
      * @throws NonexistentValueException : Return Exception if the request article doesn't exist
      */
     @PutMapping("/reject/")
@@ -82,17 +82,17 @@ public class ArticleController {
 
     /***
      * @author: idtruoc
-     * @return: Get All article checked by admin
+     * @return: Get All article with status "Đã duyệt" by censor
      * @throws  Exception : Return Exception if something wrong
      */
-    @GetMapping("/checked/")
+    @GetMapping("/checked/censor")
     public ResponseEntity<List<Article>> getAllArticleChecked(@Valid @RequestBody  ArticleDto articleDto) throws Exception{
         return new ResponseEntity<>(articleService.getArticlesChecked(articleDto), HttpStatus.OK);
 
     }
     /***
      * @author: idtruoc
-     * @return: Get All article checked by admin
+     * @return: Get All article with status "Chờ duyệt"
      * @throws  Exception : Return Exception if something wrong
      */
     @GetMapping("/waiting/")
@@ -102,19 +102,19 @@ public class ArticleController {
     }
     /***
      * @author: idtruoc
-     * @return: get all article with status : "waiting" by UserId
+     * @return: get all article with status : "Chờ duyệt" by UserId
      * @throws  Exception : Return Exception if something wrong
      */
-    @GetMapping("/userId/waiting/{userId}")
+    @GetMapping("/waiting/creator/{userId}")
     public ResponseEntity<List<Article>> getAllArticleWaitingByUserId(@Valid @PathVariable String userId) throws Exception{
         return new ResponseEntity<>(articleService.getArticlesWaitingByUserId(userId), HttpStatus.OK);
     }
     /***
      * @author: idtruoc
-     * @return: get all article with status : "Checked" by UserId
+     * @return: get all article with status : "Đã duyệt" by UserId
      * @throws  Exception : Return Exception if something wrong
      */
-    @GetMapping("/userId/checked/{userId}")
+    @GetMapping("/checked/creator/{userId}")
     public ResponseEntity<List<Article>> getAllArticleCheckedByUserId(@Valid @PathVariable String userId) throws Exception{
         return new ResponseEntity<>(articleService.getArticlesCheckedByUserId(userId), HttpStatus.OK);
     }
@@ -124,7 +124,7 @@ public class ArticleController {
      * @return: get all article with status : "Không được duyệt" by UserId
      * @throws  Exception : Return Exception if something wrong
      */
-    @GetMapping("/userId/notchecked/{userId}")
+    @GetMapping("/notchecked/creator/{userId}")
     public ResponseEntity<List<Article>> getAllArticleNotCheckedByUserId(@Valid @PathVariable String userId) throws Exception{
         return new ResponseEntity<>(articleService.getArticlesNotCheckedByUserId(userId), HttpStatus.OK);
     }
