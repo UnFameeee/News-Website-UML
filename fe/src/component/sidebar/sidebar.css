@@ -10,6 +10,7 @@
 }
 
 .sidebarItem{
+    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,14 +35,14 @@
     width: 90%;
     display: flex;
     align-self: flex-start;
-    /* justify-content: center; */
+    padding: 0 10px 0 10px;
 }
 
 
 .searchInput{  
     align-self: flex-start;
     padding-left: 10px; 
-    width: 100%;
+    width: 65%;
     height: 30px;
     border: none;
     font-size: 14px;
@@ -52,7 +53,7 @@
     align-self: flex-end;
     margin-left: 5px;
     padding: 0%;
-    width: 60%;
+    width: 30%;
     height: 31px;
     border: none;
     text-align: center;

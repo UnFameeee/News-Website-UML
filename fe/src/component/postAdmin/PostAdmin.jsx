@@ -17,10 +17,10 @@ export default function PostAdmin({postAdmin}){
     }, [])
 
     const MappingCateName = (c) => {
-        for(let i = 0; i < cats.length; i++){
-            if(cats[i].id == c){
+        for(let i = 0; i < cats.length; ++i){
+            if(cats[i].id === c)
                 return cats[i].categoryName
-            }
+        return ""
         }
     }
 

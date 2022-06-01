@@ -27,17 +27,6 @@ public class ArticleServiceImpl implements ArticleService{
     public List<Article> getAllArticle() throws Exception {
         try{
             List<Article> articles = articleRepository.findArticlesByStatus("Đã duyệt");
-//            List<Category> categories = categoryRepository.findAllCategory();
-
-//            Map<String, String> mapCate = new HashMap<>();
-//            for (Category cate : categories) {
-//                mapCate.put(cate.getId(), cate.getCategoryName());
-//            }
-
-//            for (Article arti : articles) {
-//                arti.set
-//                System.out.println(index);
-//            }
         return  articles;
         }catch(Exception ex){
             throw new Exception("System error, detail: " + ex);
@@ -114,20 +103,24 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    public List<Article> getArticlesByCatRelated(String cate) throws Exception {
-        try{
-            Optional<Category> category = categoryRepository.findCategoryByCategoryNameAndIsActive(cate, true);
-            List<Article> articleList = new ArrayList<>();
-            List<Article> articleListNew = new ArrayList<>();
-            articleList = articleRepository.findArticlesByCategoryAndStatus("Đã duyệt",category.get().getId());
-            Collections.shuffle(articleList);
-            for(int i =0;i<6;i++){
-                articleListNew.add(articleList.get(i)) ;
-            }
-            return  articleListNew;
-        }catch(Exception ex){
-            throw new Exception("System error, detail: " + ex);
+    public List<Article> getArticlesByCatRelated(String postId) throws NonexistentValueException {
+        //Find article cate with articleId
+        Optional<Article> article = articleRepository.findArticleById(postId);
+        if(article.isEmpty()){
+            throw new NonexistentValueException("Article doesn't exist !!!");
         }
+//        Optional<Category> category = categoryRepository.findCategoryByIdAndIsActive(article.get().getCategoryId(), true);
+
+        List<Article> articleList = articleRepository.findArticlesByCategoryAndStatus("Đã duyệt", article.get().getCategoryId());
+        if(articleList.isEmpty()){
+            throw new NonexistentValueException("Category doesn't exist !!!");
+        }
+        List<Article> articleListNew = new ArrayList<>();
+        Collections.shuffle(articleList);
+        for(int i =0;i<6;i++){
+            articleListNew.add(articleList.get(i));
+        }
+        return articleListNew;
     }
 
     @Override
