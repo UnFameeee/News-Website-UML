@@ -17,10 +17,10 @@ export default function PostAdmin({postAdmin}){
     }, [])
 
     const MappingCateName = (c) => {
-        for(let i = 0; i < cats.length; ++i){
-            if(cats[i].id === c)
+        for(let i = 0; i < cats.length; i++){
+            if(cats[i].id == c){
                 return cats[i].categoryName
-        return ""
+            }
         }
     }
 
@@ -38,9 +38,9 @@ export default function PostAdmin({postAdmin}){
                 </Link>             
                 {postAdmin.status === "Chờ duyệt" && <div className="postAdminStatusWaitInfo">{postAdmin.status}</div>}
 
-                {postAdmin.status === "Đã duyệt" && <div className="postAdminStatusRejectInfo">{postAdmin.status}</div>}
+                {postAdmin.status === "Đã duyệt" && <div className="postAdminStatusAcceptInfo">{postAdmin.status}</div>}
 
-                {postAdmin.status === "Không được duyệt" && <div className="postAdminStatusInfo">{postAdmin.status}</div>}
+                {postAdmin.status === "Không được duyệt" && <div className="postAdminStatusRejectInfo">{postAdmin.status}</div>}
 
                 <div className="postAdminSubInfo">
                     <div className="postAdminCats">
