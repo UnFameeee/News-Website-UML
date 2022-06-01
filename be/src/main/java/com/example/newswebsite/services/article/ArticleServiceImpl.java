@@ -29,7 +29,7 @@ public class ArticleServiceImpl implements ArticleService{
     @Override
     public List<Article> getAllArticle() throws Exception {
         try{
-            List<Article> articles = articleRepository.findAllArticle();
+            List<Article> articles = articleRepository.findArticlesByStatus("Đã duyệt");
 //            List<Category> categories = categoryRepository.findAllCategory();
 
 //            Map<String, String> mapCate = new HashMap<>();
@@ -51,7 +51,7 @@ public class ArticleServiceImpl implements ArticleService{
     public List<Article> getAllArticleByCateId(String cate) throws Exception {
         try{
             Optional<Category> category = categoryRepository.findCategoryByCategoryNameAndIsActive(cate, true);
-            return articleRepository.findArticlesByCategory(category.get().getId());
+            return articleRepository.findArticlesByCategoryAndStatus("Đã duyệt",category.get().getId());
         }catch(Exception ex){
             throw new Exception("System error, detail: " + ex);
         }
@@ -134,12 +134,21 @@ public class ArticleServiceImpl implements ArticleService{
         }
     }
 
+    @Override
+    public List<Article> getArticlesNotCheckedByUserId(String userId) throws Exception {
+        try{
+            return articleRepository.findArticlesByStatusAndUserId("Không được duyệt", userId);
+        }catch(Exception ex){
+            throw new Exception("System error, detail: " + ex);
+        }
+    }
+
     // lấy những bài viết admin đã duyệt của chính admin đó
     @Override
     public List<Article> getArticlesChecked(ArticleDto articleDto) throws Exception {
 
         try{
-            return articleRepository.findArticlesByStatusAndCensorId("checked",articleDto.getCensorId());
+            return articleRepository.findArticlesByStatusAndCensorId("Đã duyệt",articleDto.getCensorId());
         }catch(Exception ex){
             throw new Exception("System error, detail: " + ex);
         }

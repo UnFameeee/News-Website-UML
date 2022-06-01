@@ -22,6 +22,7 @@ public interface ArticleService {
     List<Article> getArticlesWaitingByUserId(String userId) throws Exception;
 
     List<Article> getArticlesCheckedByUserId(String userId) throws Exception;
+    List<Article> getArticlesNotCheckedByUserId(String userId) throws Exception;
     List<Article> getArticlesChecked(ArticleDto articleDto) throws Exception;
     List<Article> searchArticlesByTitle(String title) throws Exception;
 }
