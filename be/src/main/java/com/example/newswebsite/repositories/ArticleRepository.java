@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface ArticleRepository extends MongoRepository<Article, String> {
     @Query("{}")
-    List<Article> findAllArticleByStatus(String status);
+    List<Article> findAllArticle();
 
     @Query("{_id: '?0'}")
     Optional<Article> findArticleById(String id);
@@ -24,7 +24,7 @@ public interface ArticleRepository extends MongoRepository<Article, String> {
 
     @Query("{ 'status':  '?0' }")
     List<Article> findArticlesByStatus(String status);
-    
+
 
     @Query(" { 'status':  '?0'  }, { 'censorId': '?0'} ")
     List<Article> findArticlesByStatusAndCensorId(String status,String censorId);
