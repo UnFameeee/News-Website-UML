@@ -24,7 +24,8 @@ export default function SinglePost(){
             setContent(res.data.content);
             setAuthor(await (await axiosInstance.get("/user/" + res.data.userId)).data.account.username)
             console.log({articleId: path, userId: user.id})
-            setLiked(await axiosInstance.get(`/user/isLiked/${user.id}/${path}`))
+            if(user.role == "member")
+                setLiked(await axiosInstance.get(`/user/isLiked/${user.id}/${path}`))
         };
         getPost()
     }, [path])
@@ -37,15 +38,15 @@ export default function SinglePost(){
         console.log('page to reload')
     }
 
-    const handleDelete = async() =>{
-        try{
-            await axiosInstance.delete(`/posts/${post.id}`, 
-                {data: {username: author}});
-            window.location.replace("/")
-        }catch(err){
-            console.log(err)
-        }
-    } 
+    // const handleDelete = async() =>{
+    //     try{
+    //         await axiosInstance.delete(`/posts/${post.id}`, 
+    //             {data: {username: author}});
+    //         window.location.replace("/")
+    //     }catch(err){
+    //         console.log(err)
+    //     }
+    // } 
 
     const handleLike = async() =>{
         try{
@@ -114,6 +115,18 @@ export default function SinglePost(){
         }
     }
 
+    const handleDisable = async () => {
+        try{
+            const data = {
+                articleId: post.id
+            }
+            await axiosInstance.put("/articles/disable/", data);
+            window.location.replace("/")
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     return ( 
         <div className='singlePost'>
             <div className="singlePostWrapper">
@@ -130,12 +143,7 @@ export default function SinglePost(){
             ) : (
                 <h1 className="singlePostTitle"> 
                     {post.title}  
-                    {user ? ((author === user.account.username) && (
-                    <div className="singlePostEdit">
-                        <i className="singlePostIcon fa-solid fa-pen-to-square" onClick={()=>setUpdateMode(true)}></i>
-                        <i className="singlePostIcon fa-solid fa-trash-can" onClick={handleDelete}></i>
-                    </div>
-                    )) : ""}
+                    
                 </h1>
             )}
                 <div className="singlePostInfo">
@@ -149,6 +157,13 @@ export default function SinglePost(){
                         {post.publishedDate}
                     </span>
                 </div>
+                
+                {user ? ((user.role == "admin") && (
+                    <div className="singlePostEdit">
+                        {/* <i className="singlePostIcon fa-solid fa-pen-to-square" onClick={()=>setUpdateMode(true)}></i> */}
+                        <i className="singlePostIcon fa-solid fa-trash-can" onClick={handleDisable}> DISABLE</i>
+                    </div>
+                    )) : ""}
 
                 {user ? (user.role === "censor" && (
                     <div className="singlePostEditButton">
@@ -158,19 +173,10 @@ export default function SinglePost(){
                 )) : ""}
 
                 {user ? (user.role === "member" && (
-                    <div className="singlePostEditButton">
-                        {(
-                            liked==true ? <p className="singlePostButtonIcon"><i className="fa-solid fa-circle-check" onClick={handleUnlike}> UNLIKE</i></p> : <p className="singlePostButtonIcon"><i className="fa-solid fa-circle-check" onClick={handleLike}> LIKE</i></p>
-                            
+                    <div className="singlePostLikeButton">
+                        {( 
+                            liked.data==true ? <p className="singlePostButtonIconUnLike"><i className="fa-solid fa-thumbs-up" onClick={handleUnlike}> LIKED</i></p> : <p className="singlePostButtonIconLike"><i className="fa-solid fa-thumbs-up" onClick={handleLike}> LIKE</i></p>
                         )}
-                        {/* {(
-                            liked==true && <p className="singlePostButtonIcon"><i className="fa-solid fa-circle-check" onClick={handleLike}> LIKE</i></p>,
-                            liked==false && <p className="singlePostButtonIcon"><i className="fa-solid fa-circle-check" onClick={handleUnlike}> UNLIKE</i></p>
-                        )} */}
-
-
-                        
-                        
                     </div>
                     )) : ""}
                 {updateMode ? (

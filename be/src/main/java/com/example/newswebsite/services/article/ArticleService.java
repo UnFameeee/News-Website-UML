@@ -16,6 +16,7 @@ public interface ArticleService {
 
     Article changeStatusArticleChecked(Map<String, String> data) throws NonexistentValueException;
     Article changeStatusArticleNotChecked(Map<String, String> data) throws NonexistentValueException;
+    Article changeStatusArticleDisable(Map<String, String> data) throws NonexistentValueException;
 
     List<Article> getArticlesWaiting() throws Exception;
     List<Article> getArticlesByCatRelated(String cate) throws Exception;

@@ -40,13 +40,17 @@
 /* End */
 
 .singlePostEdit{
-    float: right;
-    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 20px;
+    margin-bottom: 15px;
 }
 
 .singlePostIcon{
     margin-left: 10px;
     cursor: pointer;
+    font-size: 20px;
 }
 
 .singlePostIcon:first-child{
@@ -93,6 +97,27 @@
 .singlePostButtonIcon:last-child{
     margin: 0 0 0 20px;
     color: red;
+}
+/* End */
+
+
+/* Member Task */
+.singlePostLikeButton{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.singlePostButtonIconUnLike{
+    color: rgb(255, 57, 57);
+    cursor: pointer; 
+}
+
+.singlePostButtonIconLike{
+    color: gray;
+    cursor: pointer; 
 }
 /* End */
 

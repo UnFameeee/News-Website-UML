@@ -17,7 +17,7 @@
 }
 
 .sidebarTitle{
-    margin: 5px 10px 5px 10px;
+    margin: 25px 10px 5px 10px;
     padding: 5px;
     width: 87%;
 
@@ -107,4 +107,90 @@
     font-size: 16px;
     margin-left: 10px;
     cursor: pointer;
+}
+
+/* Register */
+
+.registerAdminForm{
+    /* margin-top: 10px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* width: 90%; */
+}
+
+.registerAdminForm > label{
+    margin: 10px 0 10px 7.5%;
+    align-self: start;
+}
+
+.registerAdminInput{
+    padding: 10px;
+    background-color: white;
+    border: none;
+    width: 80%;
+}
+
+.registerAdminButton{
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: #90EE90;
+    border: none;
+    color: #247324;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 10px;
+    width: 45%;
+}
+
+.registerAdminRole{
+    align-self: start;
+    margin-left: 7.5%;
+    width: 40%;
+    height: 30px;
+    font-size: 16px;
+}
+
+.holderSidebarCateItemInput{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.categoryInput{
+    padding: 10px;
+    background-color: white;
+    border: none;
+    width: 75%;
+}
+
+.sidebarCateItemButton{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.submitCateButton{
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: #90EE90;
+    border: none;
+    color: #247324;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 10px;
+    width: 25%;
+}
+
+.submitCateButton:first-child{
+    margin-right: 10px;
+}
+
+.submitCateButton:last-child{
+    margin-left: 10px;
 }
