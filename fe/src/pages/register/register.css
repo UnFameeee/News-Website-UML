@@ -1,16 +1,3 @@
-/* .registerCover{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-} */
-
-/* .wallpaper{
-    height: 50%;
-    width: 50%;
-    object-fit: cover;
-} */
-
-
 .register{
     height: calc(100vh - 50px);
     display: flex;

@@ -45,7 +45,7 @@ export default function TopBar(){
                 <i className="topIcon fa-brands fa-twitter-square"></i>
                 <i className="topIcon fa-brands fa-google-plus-square"></i> */}
                 {(
-                    (user ? ((user.role !== "creator" && user.role !== "censor" && user.role !== "admin")) : (user === null)) && <Link className="link" to="/"><i className="topIcon fa-solid fa-house-chimney"></i></Link>
+                    (user ? ((user.role !== "creator" && user.role !== "censor")) : (user === null)) && <Link className="link" to="/"><i className="topIcon fa-solid fa-house-chimney"></i></Link>
                 )}
             </div>
             <div className="topCenter">
@@ -80,12 +80,12 @@ export default function TopBar(){
                                     <Link className="dropdown-list-ele" to="/setting">
                                         <div onClick={hideDropdown}>Tài khoản của tôi</div>
                                     </Link>
-                                    {
+                                    {/* {
                                         user.role === "member" && 
                                         <Link className="dropdown-list-ele" to="/">
                                         <div onClick={hideDropdown}>Bài viết đã lưu</div>
                                         </Link>
-                                    }
+                                    } */}
 
                                     {
                                         user.role === "creator" && 
@@ -125,18 +125,18 @@ export default function TopBar(){
                                         </Link>
                                     }
                                     
-                                    {
+                                    {/* {
                                         user.role === "admin" && 
                                         <Link className="dropdown-list-ele" to="/">
                                         <div onClick={hideDropdown}>Quản lý tài khoản</div>
                                         </Link>
-                                    }
-                                    {
+                                    } */}
+                                    {/* {
                                         user.role === "admin" && 
                                         <Link className="dropdown-list-ele" to="/">
                                         <div onClick={hideDropdown}>Quản lý bài viết</div>
                                         </Link>
-                                    }
+                                    } */}
                                     <div className="dropdown-list-ele" onClick={() =>{handleLogout(); hideDropdown()}}>Đăng xuất</div>
                                 </div> ) : null
                             }

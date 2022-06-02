@@ -28,13 +28,14 @@ public class ArticleController {
      * @throws Exception : Return Exception if something wrong
      */
     @GetMapping("/")
-    public ResponseEntity<List<Article>> getAllArticle(@RequestParam(value = "cate", required = false) String cate, @RequestParam(value = "search", required = false) String search) throws Exception{
+    public ResponseEntity<List<Article>> getAllArticle(@RequestParam(value = "cate", required = false) String cate,
+                                                       @RequestParam(value = "search", required = false) String search) throws Exception{
         if(cate == null && search == null)
             return new ResponseEntity<>(articleService.getAllArticle(), HttpStatus.OK);
         else if(cate != null)
             return new ResponseEntity<>(articleService.getAllArticleByCateId(cate), HttpStatus.OK);
         else
-            return new ResponseEntity<>(articleService.searchArticlesByTitle(search), HttpStatus.OK);
+        return new ResponseEntity<>(articleService.searchArticlesByTitle(search), HttpStatus.OK);
     }
 
     /***
@@ -78,6 +79,16 @@ public class ArticleController {
     }
 
     /***
+     * @author: Unfame
+     * @return: The article has updated status "Không hoạt động" by admin
+     * @throws NonexistentValueException : Return Exception if the request article doesn't exist
+     */
+    @PutMapping("/disable/")
+    public ResponseEntity<Article> changeStatusDisable(@Valid @RequestBody Map<String, String> data) throws NonexistentValueException{
+        return new ResponseEntity<>(articleService.changeStatusArticleDisable(data), HttpStatus.OK);
+    }
+
+    /***
      * @author: idtruoc
      * @return: get some article trending
      * @throws  Exception : Return Exception if something wrong
@@ -99,7 +110,7 @@ public class ArticleController {
 
     /***
      * @author: Unfame
-     * @return: get all article with status : "Chờ duyệt" ,"Đã duyệt" by Creator
+     * @return: get all article with status : "Chờ duyệt" ,"Đã duyệt" by Censor
      * @throws  Exception : Return Exception if something wrong
      */
     @GetMapping("/censor/{censorId}/")

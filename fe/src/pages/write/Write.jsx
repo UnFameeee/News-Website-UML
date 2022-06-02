@@ -63,27 +63,26 @@ export default function Write(){
                 alt=""
             /> 
             <form className="writeForm" onSubmit={handleSubmit}>
-                <div className="writeFormGroup">
-                    <label htmlFor="fileInput">
-                        <i className="writeIcon fa-solid fa-plus"></i>
-                    </label>
-                    <input type="file" id="fileInput" style={{display: "none"}} onChange={(e) => setFile(e.target.files[0])}/>
-                    <input type="text" placeholder="Title" maxLength={85}className="writeInput" autoFocus={true} onChange={e=>setTitle(e.target.value)}/>
-
-                    
-                </div>
-                <div className="writeFormGroup">
-                    <textarea placeholder="Tell your story..." type="text" className="writeInput writeText" onInput={auto_grow} onChange={e=>setContent(e.target.value)}></textarea>
-
-
-                    <label for="cate">Choose a category:</label>
+                
+                <div className="writeFormSubmit">    
+                
+                <label for="cate">Choose a category:</label>
                     <select className="cate" onChange={(e) => setCatSelected(e.target.value)} >
                         {cats.map((c) => (
                             <option value={c.id}>{c.categoryName}</option>
                         ))}
                     </select>
-
-
+                </div>
+                
+                <div className="writeFormGroup">
+                    <label htmlFor="fileInput">
+                        <i className="writeIcon fa-solid fa-plus"></i>
+                    </label>
+                    <input type="file" id="fileInput" style={{display: "none"}} onChange={(e) => setFile(e.target.files[0])}/>
+                    <input type="text" placeholder="Title" maxLength={85} className="writeInput" autoFocus={true} onChange={e=>setTitle(e.target.value)}/>
+                </div>
+                <div className="writeFormGroup">
+                    <textarea placeholder="Tell your story..." type="text" className="writeInput writeText" onInput={auto_grow} onChange={e=>setContent(e.target.value)}></textarea>
                 </div>
                 <button className="writeSubmit" type="submit" onSubmit={handleSubmit}>Submit</button>
                 

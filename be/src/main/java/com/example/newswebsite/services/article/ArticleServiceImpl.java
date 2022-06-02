@@ -93,6 +93,19 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
+    public Article changeStatusArticleDisable(Map<String, String> data) throws NonexistentValueException {
+        Optional<Article> article = articleRepository.findArticleById(data.get("articleId"));
+        if(article.isEmpty()){
+            throw new NonexistentValueException("Article doesn't exist !!!");
+        }
+        else {
+            article.get().setStatus("Không hoạt động");
+            articleRepository.save(article.get());
+        }
+        return article.get();
+    }
+
+    @Override
     public List<Article> getArticlesWaiting() throws Exception {
 
         try{

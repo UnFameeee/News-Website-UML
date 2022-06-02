@@ -14,7 +14,12 @@ export default function Sidebar(){
     const [searchInput, setSearchInput] = useState("");
     const [miniPosts, setMiniPosts] = useState([]);
 
-    
+    const [username, setUsername] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [role, setRole] = useState("")
+
+
     useEffect(() => {
         const fetchPosts = async () => {
             let path = "/articles/trending/";
@@ -29,6 +34,7 @@ export default function Sidebar(){
             }
             const res = await axiosInstance.get(path)
             setMiniPosts(res.data)
+            setRole("censor")
         }
         fetchPosts()
     }, [])
@@ -93,6 +99,29 @@ export default function Sidebar(){
 
     }
 
+    const handleSubmit = async (e) =>{
+        e.preventDefault();
+        try{
+            const data = {
+                "account": {
+                    username,
+                    password
+                },
+                email, 
+                "phone": "",
+                "fullname": "", 
+                "image": "", 
+                "role": role,
+                "description": "",
+                "favoriteArticle": []
+            };
+
+            const res = await axiosInstance.post("/auth/register", data)
+            res.data && window.location.replace("/login")
+        }catch(err){
+        }
+    }
+
     return ( 
         <div className="sidebar">
             <div className="sidebarItem">
@@ -115,7 +144,6 @@ export default function Sidebar(){
             </div>
             {user ? user.role === "admin" && (
                 <div className="sidebarCateItem">
-
                     <ul className="sidebarList">
                         {cats.map((c) => (
                             <Link to={``} className="link" onClick={handleCateClick}>
@@ -123,12 +151,43 @@ export default function Sidebar(){
                             </Link>
                         ))}
                     </ul>
-
+                <div className="holderSidebarCateItemInput">
                 <input type="text" id="categoryInput" className="categoryInput" placeholder="Category..." onChange={(e) => setCateInput(e.target.value)}/>
+                <div className="sidebarCateItemButton">
+                    <button className="submitCateButton" onClick={handleCateCreate}>Tạo mới</button>
+                    <button className="submitCateButton" onClick={handleCateUpdate}>Chỉnh sửa</button>
+                    <button className="submitCateButton" onClick={handleCateDelete}>Xóa</button>
+                </div>
+                
+                </div>
+            </div>
+            ) : ""}
 
-                <button className="submitCateButton" onClick={handleCateCreate}>Tạo mới</button>
-                <button className="submitCateButton" onClick={handleCateUpdate}>Chỉnh sửa</button>
-                <button className="submitCateButton" onClick={handleCateDelete}>Xóa</button>
+            <div className="sidebarItem">
+                {user ? user.role === "admin" && <span className="sidebarTitle">Tạo tài khoản quản trị</span> : ""}
+            </div>
+            {user ? user.role === "admin" && (
+                <div className="sidebarCateItem">
+
+                    <div className="form">
+                    <form className="registerAdminForm" onSubmit={handleSubmit}>
+                        <label>Username</label>
+                        <input type="text" className="registerAdminInput" placeholder="Username"
+                        onChange={e => setUsername(e.target.value)}/>
+                        <label>Email</label>
+                        <input type="text" className="registerAdminInput" placeholder="Email"
+                        onChange={e => setEmail(e.target.value)}/>
+                        <label>Password</label>
+                        <input type="password" className="registerAdminInput" placeholder="password"
+                        onChange={e => setPassword(e.target.value)}/>
+                        <label for="cate">Choose a Role:</label>
+                        <select className="registerAdminRole" onChange={(e) => setRole(e.target.value)} >
+                            <option selected="selected" value="censor">Kiểm duyệt viên</option>
+                            <option value="creator">Người tạo nội dung</option>
+                        </select>
+                        <button className="registerAdminButton">Register</button>
+                    </form>
+                </div>
             </div>
             ) : ""}
 

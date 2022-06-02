@@ -7,6 +7,8 @@
 }
 
 .writeImg{
+    background-color: #E0E0E0;
+    border: 2px solid gray;
     margin-left: 150px;
     width: 84vw;
     height: 500px;
@@ -50,10 +52,13 @@
     font-size: 20px;
     height: 100vh;
     overflow: hidden;
+    border: 3px solid gray;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
 
 .writeSubmit{
-    position: absolute;
+    margin: 0 0 50px 150px;
     top: 20px;
     right: 7.3%;
     color: white;
@@ -62,5 +67,26 @@
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    font-size: 20px;
+    width: 10%;
+}
+
+.writeFormSubmit{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 20px 0 0 0;
+    margin-left: 150px;
+}
+
+.cate{
+    margin: 10px 0 10px 0;
+    width: 30%;
+    height: 30px;
     font-size: 16px;
+}
+
+.writeFormSubmit label{
+    margin-top: 20px;
+    font-size: 20px;
 }
