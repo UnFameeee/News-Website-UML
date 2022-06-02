@@ -19,7 +19,9 @@
 
 
 ## News-Website
-Basic News Website UML. Cre: UnFame. This project was created for the final project of UML.A big thanks for Miss. Mai Anh Thơ for helping us with this project.
+Basic News Website UML. Cre: UnFame. 
+This project was created for the final project of UML.
+A big thanks for Miss. Mai Anh Thơ for helping us with this project.
 
 ## Contributors
 - UnFame a.k.a Nguyễn Phạm Quốc Thắng
