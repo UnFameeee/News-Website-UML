@@ -70,7 +70,8 @@ export default function Settings(){
                     <label>Ảnh đại diện</label>
                     <div className="settingsPP">
                         <img
-                            src={file ? URL.createObjectURL(file) : user.image ? user.image : "https://lh3.googleusercontent.com/d/1NCdOtipy2LSXUiNbk6Eop5sdx2WZwqvR=s512?authuser=0" }
+                            src={file ? URL.createObjectURL(file) : user.image ? user.image : "https://firebasestorage.googleapis.com/v0/b/uml-final.appspot.com/o/static_img%2Favatar-placeholder.png?alt=media&token=c060bc06-00e2-461f-94f6-aac6e44cc718" }
+                            // "https://lh3.googleusercontent.com/d/1NCdOtipy2LSXUiNbk6Eop5sdx2WZwqvR=s512?authuser=0"
                             alt=""
                         />
                         <label htmlFor="fileInput">

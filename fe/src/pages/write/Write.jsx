@@ -59,7 +59,7 @@ export default function Write(){
         <div className='write'>
             <img
                 className="writeImg"
-                src= {file ? URL.createObjectURL(file) : "https://lh3.googleusercontent.com/d/1ZRDEEB8d6lytFp18WiRPesyaP3YpEVn0=s1920?authuser=0"}
+                src= {file ? URL.createObjectURL(file) : "https://firebasestorage.googleapis.com/v0/b/uml-final.appspot.com/o/static_img%2Fempty%20image.png?alt=media&token=79da93b8-ce8c-4df0-9e45-82d974b1afae" }
                 alt=""
             /> 
             <form className="writeForm" onSubmit={handleSubmit}>
@@ -91,3 +91,4 @@ export default function Write(){
     )
 }
 
+//"https://lh3.googleusercontent.com/d/1ZRDEEB8d6lytFp18WiRPesyaP3YpEVn0=s1920?authuser=0"
