@@ -16,7 +16,8 @@ export default function Header(){
                     </div>
                     <img 
                         className="headerImg"
-                        src="https://lh3.googleusercontent.com/d/19ag6r2vHQQyF5goiLQ00lGsuWq5RAhO1=s1920?authuser=0"
+                        // src="https://lh3.googleusercontent.com/d/19ag6r2vHQQyF5goiLQ00lGsuWq5RAhO1=s1920?authuser=0"
+                        src= "https://firebasestorage.googleapis.com/v0/b/uml-final.appspot.com/o/static_img%2Fthumbnail_home_admin.jpg?alt=media&token=e82faefa-b6f1-482d-9202-5a1120db7005"
                         alt="" />
                 </div>
             )
@@ -31,8 +32,8 @@ export default function Header(){
             </div>
             <img 
                 className="headerImg"
-                // src="https://firebasestorage.googleapis.com/v0/b/uml-final.appspot.com/o/static_img%2Fthumbnail_home.jpg?alt=media&token=e4806ea1-b4d8-4aca-9fc7-9a753d5bf9b4"
-                src="https://lh3.googleusercontent.com/d/1j9bwHWyTiqjM265DG0n5phy7K9aa5LgO=s1920"
+                src="https://firebasestorage.googleapis.com/v0/b/uml-final.appspot.com/o/static_img%2Fthumbnail_home.jpg?alt=media&token=e4806ea1-b4d8-4aca-9fc7-9a753d5bf9b4"
+                // src="https://lh3.googleusercontent.com/d/1j9bwHWyTiqjM265DG0n5phy7K9aa5LgO=s1920"
                 alt="" />
         </div>
     )
