@@ -128,8 +128,13 @@ public class ArticleServiceImpl implements ArticleService{
         if(articleList.isEmpty()){
             throw new NonexistentValueException("Category doesn't exist !!!");
         }
+
+        if(articleList.size() <= 6)
+            return articleList;
+
         List<Article> articleListNew = new ArrayList<>();
         Collections.shuffle(articleList);
+
         for(int i =0;i<6;i++){
             articleListNew.add(articleList.get(i));
         }
@@ -186,6 +191,9 @@ public class ArticleServiceImpl implements ArticleService{
     public List<Article> getArticlesTrending() throws Exception {
         try{
             List<Article> articleList = articleRepository.findArticlesByStatus("Đã duyệt");
+
+            if(articleList.size() <= 6)
+                return articleList;
 
             List<Article> articleListNew = new ArrayList<>();
 
