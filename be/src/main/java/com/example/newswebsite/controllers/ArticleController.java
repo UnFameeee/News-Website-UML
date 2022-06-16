@@ -140,14 +140,4 @@ public class ArticleController {
         //Vừa đăng nhập vào =>
        return new ResponseEntity<>(articleService.getArticlesCheckedByUserId(userId), HttpStatus.OK);
     }
-
-//    /***
-//     * @author: idtruoc
-//     * @return: Search artircle with title
-//     * @throws  Exception : Return Exception if something wrong
-//     */
-//    @GetMapping("/search/{title}")
-//    public ResponseEntity<List<Article>> searchArticleByTitle(@Valid @PathVariable String title) throws Exception{
-//        return new ResponseEntity<>(articleService.searchArticlesByTitle(title), HttpStatus.OK);
-//    }
 }
