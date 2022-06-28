@@ -7,4 +7,4 @@ const exception = (error, req, res, next) => {
     });
 };
 
-module.exports = exception()
+module.exports = exception
