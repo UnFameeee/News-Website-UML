@@ -35,6 +35,5 @@ public class User {
     private Boolean isActive;
 
     private List<String> favoriteArticle;
-
 }
 
